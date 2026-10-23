@@ -2,6 +2,7 @@ build/
 docs/
 subprojects/googletest-*/
 subprojects/packagecache/
+subprojects/sqlite-*/
 *~
 \#*\#
 .#*

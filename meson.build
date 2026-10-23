@@ -9,6 +9,11 @@ gtest = dependency(
     fallback: ['gtest', 'gtest_dep']
 )
 
+sqlite = dependency(
+    'sqlite3',
+    fallback: ['sqlite3', 'sqlite3_dep']
+)
+
 executable(
     'proyecto2',
     'src/main.cpp'
