@@ -23,6 +23,9 @@ jobs:
       - name: Compilar
         run: meson compile -C build
 
+      - name: Instalar
+        run: sudo meson install -C build
+
       - name: Test
         run: meson test -C build --print-errorlogs
 
