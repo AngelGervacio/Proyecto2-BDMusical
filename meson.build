@@ -20,7 +20,7 @@ add_project_arguments(
 
 gtest = dependency(
     'gtest_main',
-    fallback: ['gtest', 'gtest_dep']
+    fallback: ['gtest', 'gtest_main_dep']
 )
 
 sqlite = dependency(
