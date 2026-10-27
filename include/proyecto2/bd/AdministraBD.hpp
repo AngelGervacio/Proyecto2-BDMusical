@@ -66,7 +66,7 @@ public:
 
   /**
    * @brief Regresa la base de datos.
-   * @retur la base de datos.
+   * @return la base de datos.
    */
   sqlite3* getBaseDeDatos() const;
 };
