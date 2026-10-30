@@ -3,6 +3,8 @@ docs/
 subprojects/googletest-*/
 subprojects/packagecache/
 subprojects/sqlite-*/
+subprojects/taglib-*/
+subprojects/utfcpp-*/
 *~
 \#*\#
 .#*

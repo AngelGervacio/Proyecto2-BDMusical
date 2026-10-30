@@ -28,6 +28,16 @@ sqlite = dependency(
     fallback: ['sqlite3', 'sqlite3_dep']
 )
 
+utfcpp = dependency(
+    'utf8cpp',
+    fallback: ['utfcpp', 'utf8cpp']
+)
+
+taglib = dependency(
+    'taglib',
+    fallback: ['taglib', 'taglib_dep']
+)
+
 test_administraBD = executable(
     'TestAdministraBD',
     'tests/bd/TestAdministraBD.cpp',
