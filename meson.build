@@ -51,4 +51,15 @@ executable(
     'src/main.cpp'
 )
 
+executable(
+    'Minero',
+    'src/minero/MineroMain.cpp',
+    'src/minero/Minero.cpp',
+    'src/bd/AdministraBD.cpp',
+    'src/bd/BaseDatosDAO.cpp',
+    'src/bd/Metadatos.cpp',
+    dependencies: [sqlite, utfcpp, taglib],
+    include_directories: [include_directories('src'), include_dir]
+)
+
 test('Pruebas AdministraBD', test_administraBD)
