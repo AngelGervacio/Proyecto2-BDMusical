@@ -92,7 +92,6 @@ public:
 
     /**
      * @brief Construye los Metadatos.
-     * @param Los Metadatos.
      */
     Metadatos build();
   };
