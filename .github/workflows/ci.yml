@@ -15,7 +15,7 @@ jobs:
       - name: Instalar dependencias
         run: |
           sudo apt update
-          sudo apt install -y meson ninja-build g++-14 doxygen
+          sudo apt install -y meson ninja-build g++-14 doxygen libgtest-dev libsqlite3-dev libutfcpp-dev libtag1-dev
 
       - name: Configurar
         run: meson setup build
