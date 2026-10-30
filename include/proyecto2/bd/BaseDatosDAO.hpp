@@ -24,6 +24,7 @@ private:
 public:
   /**
    * @brief Constructor de la clase.
+   * @param admin El administrador de la base de datos.
    */
   BaseDatosDAO(AdministraBD& admin);
   
@@ -51,7 +52,7 @@ public:
 
   /**
    * @brief Regresa la id del album buscado, -1 si no lo encuentra.
-   * @param album El album a buscar.
+   * @param ruta La ruta del album.
    * @return La id del album.
    */
   int obtenerAlbum(const std::string& ruta) const;
