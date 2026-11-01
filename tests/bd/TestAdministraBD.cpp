@@ -7,16 +7,24 @@
 #include <sqlite3.h>
 #include "proyecto2/bd/AdministraBD.hpp"
 
-TEST(AdministraBDTest, ConstructorAdministraBD){
-  AdministraBD admin;
+class AdministraBDTestFixture : public ::testing::Test{
+public:
+  AdministraBD admin{std::string(TEST_DIR) + "/testBD.db"};
+};
 
+/**
+ * @brief Prueba del constructor de la clase AdministraBD.
+ */
+TEST_F(AdministraBDTestFixture, ConstructorAdministraBD){
   EXPECT_FALSE(admin.estaAbierta());
   EXPECT_EQ(admin.getBaseDeDatos(), nullptr);
 }
 
-TEST(AdministraBDTest, AbrirBaseDeDatos){
-  AdministraBD admin;
-  
+/**
+ * @brief Prueba del metodo abrir() de la clase AdministraBD.
+ * Comprueba que se pueda abrir correctamente la base de datos.
+ */
+TEST_F(AdministraBDTestFixture, AbrirBaseDeDatos){
   EXPECT_FALSE(admin.estaAbierta());
 
   admin.abrir();
@@ -27,9 +35,7 @@ TEST(AdministraBDTest, AbrirBaseDeDatos){
   EXPECT_NO_THROW(admin.abrir());
 }
 
-TEST(AdministraBDTest, CerrarBaseDeDatos){
-  AdministraBD admin;
-
+TEST_F(AdministraBDTestFixture, CerrarBaseDeDatos){
   EXPECT_FALSE(admin.estaAbierta());
   EXPECT_NO_THROW(admin.cerrar());
 

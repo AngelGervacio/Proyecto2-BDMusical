@@ -18,6 +18,13 @@ add_project_arguments(
     language: 'cpp'
 )
 
+test_dir = meson.current_source_dir() / 'tests' / 'fixtures'
+
+add_project_arguments(
+    '-DTEST_DIR="' + test_dir + '"',
+    language: 'cpp'
+)
+
 gtest = dependency(
     'gtest_main',
     fallback: ['gtest', 'gtest_main_dep']
