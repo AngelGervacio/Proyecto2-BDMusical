@@ -38,6 +38,9 @@ int numeroAleatorio(){
   return distrib(gen);
 }
 
+/**
+ * @brief Comprueba que los metadatos esten vacios.
+ */
 TEST(MetadatosTest, DatosVacios){
   Metadatos metadatos = Metadatos::Builder().build();
 
@@ -50,6 +53,10 @@ TEST(MetadatosTest, DatosVacios){
   EXPECT_TRUE(metadatos.getGenero().empty());
 }
 
+/**
+ * @brief Prueba los metodos setRuta() y getRuta().
+ * Comprueba que se asigne correctamente la ruta.
+ */
 TEST(MetadatosTest, AgregaObtieneRuta){
   std::filesystem::path ruta = std::filesystem::path(TEST_DIR) / "demo.mp3";
 
@@ -60,6 +67,10 @@ TEST(MetadatosTest, AgregaObtieneRuta){
   EXPECT_EQ(metadatos.getRuta(), ruta);
 }
 
+/**
+ * @brief Prueba los metodos setTitulo() y getTitulo().
+ * Comprueba que se asigne correctamente el titulo.
+ */
 TEST(MetadatosTest, AgregaObtieneTitulo){
   std::string titulo = nombreAleatorio();
   
@@ -70,6 +81,10 @@ TEST(MetadatosTest, AgregaObtieneTitulo){
   EXPECT_EQ(metadatos.getTitulo(), titulo);
 }
 
+/**
+ * @brief Prueba los metodos setArtista() y getArtista().
+ * Comprueba que se asigne correctamente el artista.
+ */
 TEST(MetadatosTest, AgregaObtieneArtista){
   std::string artista = nombreAleatorio();
   
@@ -80,6 +95,10 @@ TEST(MetadatosTest, AgregaObtieneArtista){
   EXPECT_EQ(metadatos.getArtista(), artista);
 }
 
+/**
+ * @brief Prueba los metodos setAlbum() y getAlbum().
+ * Comprueba que se asigne correctamente el album.
+ */
 TEST(MetadatosTest, AgregaObtieneAlbum){
   std::string album = nombreAleatorio();
   
@@ -90,6 +109,10 @@ TEST(MetadatosTest, AgregaObtieneAlbum){
   EXPECT_EQ(metadatos.getAlbum(), album);
 }
 
+/**
+ * @brief Prueba los metodos setPista() y getPista().
+ * Comprueba que se asigne correctamente la pista.
+ */
 TEST(MetadatosTest, AgregaObtienePista){
   int pista = numeroAleatorio();
 
@@ -100,6 +123,10 @@ TEST(MetadatosTest, AgregaObtienePista){
   EXPECT_EQ(metadatos.getPista(), pista);
 }
 
+/**
+ * @brief Prueba los metodos setAnio() y getAnio().
+ * Comprueba que se asigne correctamente el año.
+ */
 TEST(MetadatosTest, AgregaObtieneAnio){
   int anio = numeroAleatorio() * 40;
 
@@ -110,6 +137,10 @@ TEST(MetadatosTest, AgregaObtieneAnio){
   EXPECT_EQ(metadatos.getAnio(), anio);
 }
 
+/**
+ * @brief Prueba los metodos setGenero() y getGenero().
+ * Comprueba que se asigne correctamente el genero.
+ */
 TEST(MetadatosTest, AgregaObtieneGenero){
   std::string genero = nombreAleatorio();
   
@@ -120,6 +151,9 @@ TEST(MetadatosTest, AgregaObtieneGenero){
   EXPECT_EQ(metadatos.getGenero(), genero);  
 }
 
+/**
+ * @brief Comprueba que se asignen correctamente algunos datos.
+ */
 TEST(MetadatosTest, DatosParciales){
   std::filesystem::path ruta = std::filesystem::path(TEST_DIR) / "demo.mp3";
   std::string titulo = nombreAleatorio();
@@ -142,6 +176,9 @@ TEST(MetadatosTest, DatosParciales){
   EXPECT_TRUE(metadatos.getGenero().empty());
 }
 
+/**
+ * @brief Comprueba que se asignen correctamente todos los datos.
+ */
 TEST(MetadatosTest, DatosCompletos){
   std::filesystem::path ruta = std::filesystem::path(TEST_DIR) / "demo.mp3";
   std::string titulo = nombreAleatorio();

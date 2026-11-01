@@ -7,11 +7,21 @@
 #include <sqlite3.h>
 #include "proyecto2/bd/AdministraBD.hpp"
 
+/**
+ * @brief Entorno de pruebas para TestAdministraBD.
+ * Contiene una instancia de AdministraBD con una base de datos
+ * para pruebas, al terminar cada prueba cierra y elimina la
+ * la base de datos creada durante las pruebas.
+ */
 class AdministraBDTestFixture : public ::testing::Test{
 protected:
-  std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testBD.db";
-  AdministraBD admin{testBD};
+  std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testBD.db"; /*!< Ruta de la base de datos > */
+  AdministraBD admin{testBD}; /*!< Administrador de la base de datos > */
 
+  /**
+   * @brief Destructor del entorno de pruebas.
+   * Cierra y elimina la base de datos creada durante las pruebas.
+   */
   void TearDown() override{
     if(admin.estaAbierta())
       admin.cerrar();
