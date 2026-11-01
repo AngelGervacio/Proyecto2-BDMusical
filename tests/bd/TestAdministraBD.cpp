@@ -35,6 +35,10 @@ TEST_F(AdministraBDTestFixture, AbrirBaseDeDatos){
   EXPECT_NO_THROW(admin.abrir());
 }
 
+/**
+ * @brief Prueba del metodo cerrar() de la clase AdministraBD.
+ * Comprueba que se pueda cerrar correctamente la base de datos.
+ */
 TEST_F(AdministraBDTestFixture, CerrarBaseDeDatos){
   EXPECT_FALSE(admin.estaAbierta());
   EXPECT_NO_THROW(admin.cerrar());
