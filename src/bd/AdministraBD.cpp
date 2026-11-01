@@ -7,6 +7,29 @@
 
 AdministraBD::AdministraBD(){
   bd = nullptr;
+  rutaBD = obtenerRutaBD();
+}
+
+AdministraBD::AdministraBD(const std::string& ruta){
+  std::filesystem::path pathBD(ruta);
+
+  if(pathBD.empty())
+    throw std::invalid_argument("Ruta ingresada no valida: ruta vacia.");
+
+  if(std::filesystem::exists(pathBD) && std::filesystem::is_directory(pathBD))
+    throw std::invalid_argument("Ruta ingresada no valida: es un directorio.");
+
+  std::filesystem::path directorio = pathBD.parent_path();
+
+  if(!directorio.empty() && !std::filesystem::exists(directorio))
+    try{
+      std::filesystem::create_directories(directorio);
+    }catch(std::filesystem::filesystem_error&){
+      throw std::runtime_error("No se pudo acceder al archivo.");
+    }
+  
+  rutaBD = ruta;
+  bd = nullptr;
 }
 
 AdministraBD::~AdministraBD(){
@@ -34,7 +57,7 @@ void AdministraBD::crear(){
 
   char* mensajeError = nullptr;
 
-  int r = sqlite3_exec(getBaseDeDatos(), sql, nullptr, nullptr, &mensajeError);
+  int r = sqlite3_exec(bd, sql, nullptr, nullptr, &mensajeError);
 
   if(r != SQLITE_OK){
     std::string mensaje = mensajeError ? mensajeError : sqlite3_errmsg(bd);
@@ -59,27 +82,21 @@ std::string AdministraBD::obtenerRutaBD() const{
 
   directorio /= "proyecto2";
 
-  std::filesystem::create_directories(directorio);
+  try{
+    std::filesystem::create_directories(directorio);
+  }catch(std::filesystem::filesystem_error&){
+    throw std::runtime_error("No se pudo acceder al archivo.");
+  }
 
   return (directorio / "rolas.db").string();
 }
 
 void AdministraBD::abrir(){
-  std::string archivo;
-  
-  try{
-    archivo = obtenerRutaBD();
-  }catch(std::filesystem::filesystem_error&){
-    throw std::runtime_error("No se pudo acceder al archivo.");
-  }catch(std::bad_alloc&){
-    throw std::runtime_error("Error de asignación de memoria.");
-  }
-
-  std::filesystem::path pathArchivo = archivo;
+  std::filesystem::path pathArchivo = rutaBD;
 
   bool existe = std::filesystem::exists(pathArchivo);
 
-  int r = sqlite3_open(archivo.c_str(), &bd);
+  int r = sqlite3_open(rutaBD.c_str(), &bd);
 
   if(r != SQLITE_OK){
     std::string mensaje = bd ? sqlite3_errmsg(bd) : "Error desconocido";

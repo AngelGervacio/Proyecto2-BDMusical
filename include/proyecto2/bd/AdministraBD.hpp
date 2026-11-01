@@ -24,6 +24,7 @@ class AdministraBD{
 private:
   sqlite3* bd; /*!< Base de datos >*/
   const std::string RUTA_ESQUEMA = std::string(DATOS_DIR) + "/rolas.sql"; /*!< Ruta del esquema de la base de datos >*/
+  std::string rutaBD; /*!< Ruta de la base de datos > */
 
   /**
    * @brief Crea la base de datos.
@@ -41,6 +42,12 @@ public:
    * @brief Constructor de la clase.
    */
   AdministraBD();
+
+  /**
+   * @brief Constructor que recibe la ruta de la base de datos.
+   * @param ruta La ruta de la base de datos.
+   */
+  AdministraBD(const std::string& ruta);
 
   /**
    * @brief Destructor de la clase.
