@@ -53,21 +53,21 @@ public:
      * @param titulo El titulo de la canción.
      * @return Un Builder con titulo asignado.
      */
-    Builder& setTitulo(std::string titulo);
+    Builder& setTitulo(const std::string& titulo);
 
     /**
      * @brief Asigna un artista a la canción.
      * @param artista El artista de la canción.
      * @return Un Builder con artista asignado.
      */
-    Builder& setArtista(std::string artista);
+    Builder& setArtista(const std::string& artista);
 
     /**
      * @brief Asigna un album a la canción.
      * @param album El album de la canción.
      * @return Un Builder con album asignado.
      */
-    Builder& setAlbum(std::string album);
+    Builder& setAlbum(const std::string& album);
 
     /**
      * @brief Asigna un número de pista a la canción.
@@ -88,7 +88,7 @@ public:
      * @param genero El genero de la canción.
      * @return Un Builder con genero asignado.
      */
-    Builder& setGenero(std::string genero);
+    Builder& setGenero(const std::string& genero);
 
     /**
      * @brief Construye los Metadatos.
@@ -106,13 +106,13 @@ public:
    * @param año El año de la canción.
    * @param genero El genero de la canción.
    */
-  Metadatos(std::filesystem::path& ruta,
-	    std::string titulo,
-	    std::string artista,
-	    std::string album,
+  Metadatos(const std::filesystem::path& ruta,
+	    const std::string& titulo,
+	    const std::string& artista,
+	    const std::string& album,
 	    int pista,
 	    int año,
-	    std::string genero);
+	    const std::string& genero);
     
   /**
    * @brief Regresa la ruta de la canción.
