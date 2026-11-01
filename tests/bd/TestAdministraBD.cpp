@@ -8,8 +8,17 @@
 #include "proyecto2/bd/AdministraBD.hpp"
 
 class AdministraBDTestFixture : public ::testing::Test{
-public:
-  AdministraBD admin{std::string(TEST_DIR) + "/testBD.db"};
+protected:
+  std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testBD.db";
+  AdministraBD admin{testBD};
+
+  void TearDown() override{
+    if(admin.estaAbierta())
+      admin.cerrar();
+
+    if(std::filesystem::exists(testBD))
+      std::filesystem::remove(testBD);
+  }
 };
 
 /**
