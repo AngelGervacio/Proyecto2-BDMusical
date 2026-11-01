@@ -47,11 +47,6 @@ test_administraBD = executable(
 )
 
 executable(
-    'proyecto2',
-    'src/main.cpp'
-)
-
-executable(
     'Minero',
     'src/minero/MineroMain.cpp',
     'src/minero/Minero.cpp',
