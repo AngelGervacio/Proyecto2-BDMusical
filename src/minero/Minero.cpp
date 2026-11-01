@@ -31,7 +31,7 @@ void Minero::registrarCancion(const std::filesystem::path& cancion) const{
 		      .setArtista(archivo.tag()->artist().to8Bit(true))
 		      .setAlbum(archivo.tag()->album().to8Bit(true))
 		      .setPista(static_cast<int>(archivo.tag()->track()))
-		      .setAño(static_cast<int>(archivo.tag()->year()))
+		      .setAnio(static_cast<int>(archivo.tag()->year()))
 		      .setGenero(archivo.tag()->genre().to8Bit(true))
 		      .build());
 }

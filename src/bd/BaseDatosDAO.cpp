@@ -232,7 +232,7 @@ void BaseDatosDAO::insertarCancion(const Metadatos& datos) const{
 
   int idAlbum = 0;
   if(!datos.getAlbum().empty())
-    idAlbum = insertarAlbum(rutaAlbum.string(), datos.getAlbum(), datos.getAño());
+    idAlbum = insertarAlbum(rutaAlbum.string(), datos.getAlbum(), datos.getAnio());
 
   std::string titulo = datos.getTitulo();
   if(titulo.empty())
@@ -277,7 +277,7 @@ void BaseDatosDAO::insertarCancion(const Metadatos& datos) const{
     throw std::runtime_error(std::string("No se pudo insertar la canción: ") + sqlite3_errmsg(bd));
   }
 
-  if((sqlite3_bind_int(stmt, 6, datos.getAño())) != SQLITE_OK){
+  if((sqlite3_bind_int(stmt, 6, datos.getAnio())) != SQLITE_OK){
     sqlite3_finalize(stmt);
     throw std::runtime_error(std::string("No se pudo insertar la canción: ") + sqlite3_errmsg(bd));
   }

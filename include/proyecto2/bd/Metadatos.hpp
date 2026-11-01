@@ -20,7 +20,7 @@ private:
   std::string artista; /*!< Artista de la canción> */
   std::string album; /*!< Album de la canción> */
   int pista; /*!< Pista de la canción> */
-  int año; /*!< Año de la canción> */
+  int anio; /*!< Año de la canción> */
   std::string genero; /*!< Genero de la canción> */
 
 public:
@@ -36,7 +36,7 @@ public:
     std::string artista; /*!< Artista de la canción> */
     std::string album; /*!< Album de la canción> */
     int pista; /*!< Pista de la canción> */
-    int año; /*!< Año de la canción> */
+    int anio; /*!< Año de la canción> */
     std::string genero; /*!< Genero de la canción> */
 
   public:
@@ -78,10 +78,10 @@ public:
 
     /**
      * @brief Asigna un año a la canción. 
-     * @param año El año de la canción.
+     * @param anio El año de la canción.
      * @return Un Builder con año asignado.
      */
-    Builder& setAño(int año);
+    Builder& setAnio(int anio);
 
     /**
      * @brief Asigna un genero de la canción.
@@ -103,7 +103,7 @@ public:
    * @param artista El artista de la canción.
    * @param album El album de la canción.
    * @param pista El número de pista de la canción.
-   * @param año El año de la canción.
+   * @param anio El año de la canción.
    * @param genero El genero de la canción.
    */
   Metadatos(const std::filesystem::path& ruta,
@@ -111,7 +111,7 @@ public:
 	    const std::string& artista,
 	    const std::string& album,
 	    int pista,
-	    int año,
+	    int anio,
 	    const std::string& genero);
     
   /**
@@ -148,7 +148,7 @@ public:
    * @brief Regresa el año de la canción.
    * @return El año de la canción.
    */
-  int getAño() const;
+  int getAnio() const;
 
   /**
    * @brief Regresa el genero de la canción.

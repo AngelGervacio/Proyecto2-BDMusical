@@ -45,14 +45,6 @@ taglib = dependency(
     fallback: ['taglib', 'taglib_dep']
 )
 
-test_administraBD = executable(
-    'TestAdministraBD',
-    'tests/bd/TestAdministraBD.cpp',
-    'src/bd/AdministraBD.cpp',
-    dependencies: [gtest, sqlite],
-    include_directories: [include_directories('src'), include_dir]
-)
-
 executable(
     'Minero',
     'src/minero/MineroMain.cpp',
@@ -64,4 +56,21 @@ executable(
     include_directories: [include_directories('src'), include_dir]
 )
 
+test_administraBD = executable(
+    'TestAdministraBD',
+    'tests/bd/TestAdministraBD.cpp',
+    'src/bd/AdministraBD.cpp',
+    dependencies: [gtest, sqlite],
+    include_directories: [include_directories('src'), include_dir]
+)
+
+test_metadatos = executable(
+    'TestMetadatos',
+    'tests/bd/TestMetadatos.cpp',
+    'src/bd/Metadatos.cpp',
+    dependencies: gtest,
+    include_directories: [include_directories('src'), include_dir]
+)
+
 test('Pruebas AdministraBD', test_administraBD)
+test('Pruebas Metadatos', test_metadatos)	

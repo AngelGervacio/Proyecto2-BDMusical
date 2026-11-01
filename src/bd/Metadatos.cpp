@@ -30,8 +30,8 @@ Metadatos::Builder& Metadatos::Builder::setPista(int pista){
   return *this;
 }
 
-Metadatos::Builder& Metadatos::Builder::setAño(int año){
-  this->año = año;
+Metadatos::Builder& Metadatos::Builder::setAnio(int anio){
+  this->anio = anio;
   return *this;
 }
 
@@ -41,7 +41,7 @@ Metadatos::Builder& Metadatos::Builder::setGenero(const std::string& genero){
 }
 
 Metadatos Metadatos::Builder::build(){
-  return Metadatos(ruta, titulo, artista, album, pista, año, genero);
+  return Metadatos(ruta, titulo, artista, album, pista, anio, genero);
 }
 
 Metadatos::Metadatos(const std::filesystem::path& ruta,
@@ -49,14 +49,14 @@ Metadatos::Metadatos(const std::filesystem::path& ruta,
 		     const std::string& artista,
 		     const std::string& album,
 		     int pista,
-		     int año,
+		     int anio,
 		     const std::string& genero){
   this->ruta = ruta;
   this->titulo = titulo;
   this->artista = artista;
   this->album = album;
   this->pista = pista;
-  this->año = año;
+  this->anio = anio;
   this->genero = genero;
 }
 
@@ -80,8 +80,8 @@ int Metadatos::getPista() const{
   return pista;
 }
 
-int Metadatos::getAño() const{
-  return año;
+int Metadatos::getAnio() const{
+  return anio;
 }
 
 std::string Metadatos::getGenero() const{
