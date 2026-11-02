@@ -19,7 +19,7 @@
  */
 class Minero{
 private:
-  BaseDatosDAO& dao; /*!< Administra Base de Datos */
+  BaseDatosDAO& dao; ///< Administra Base de Datos.
   
   /**
    * @brief Recorre recursivamente un directorio.
@@ -30,7 +30,7 @@ private:
   /**
    * @brief Registra una canción en la base de datos,
    * si ya esta en la base de datos no la registra.
-   * @param canción La ruta de la canción a registrar.
+   * @param cancion La ruta de la canción a registrar.
    */
   void registrarCancion(const std::filesystem::path& cancion) const;
 
