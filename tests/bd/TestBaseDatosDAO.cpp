@@ -10,16 +10,31 @@
 #include "proyecto2/bd/Metadatos.hpp"
 #include "../util/Util.hpp"
 
+/**
+ * @brief Entorno de pruebas para TestBaseDatosDAO.
+ * Contiene una instancia de AdministraBD con una base de datos
+ * para pruebas y una instancia de BaseDatosDAO para acceder a la
+ * base de datos, al iniciar cada prueba abre la base de datos y
+ * al terminar la cierra y elimina.
+ */
 class BaseDatosDAOTestFixture : public ::testing::Test{
 protected:
   std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testDAO.db"; ///< Ruta de la base de datos.
   AdministraBD admin{testBD}; ///< Administrador de la base de datos.
   BaseDatosDAO dao{admin}; ///< DAO de la base de datos.
 
+  /**
+   * @brief Inicializa el entorno de pruebas para cada prueba.
+   * Abre la base de datos.
+   */
   void SetUp() override{
     admin.abrir();
   }
 
+  /**
+   * @brief Destructor del entorno de pruebas.
+   * Cierra y elimina la base de datos creada durante las pruebas.
+   */
   void TearDown() override{
     if(admin.estaAbierta())
       admin.cerrar();
@@ -29,7 +44,10 @@ protected:
   }
 };
 
-
+/**
+ * @brief Prueba del metodo insertarArtista() de la clase BaseDatosDAO.
+ * Comprueba que se pueda insertar un artista en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, InsertarArtista){
   std::string artista;
 
@@ -51,6 +69,10 @@ TEST_F(BaseDatosDAOTestFixture, InsertarArtista){
   EXPECT_THROW(dao.insertarArtista("artista"), std::runtime_error);
 }
 
+/**
+ * @brief Prueba del metodo obtenerArtista() de la clase BaseDatosDAO.
+ * Comprueba que se pueda obtener la id de un artista en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, ObtenerArtista){
   std::string artista;
   
@@ -70,6 +92,10 @@ TEST_F(BaseDatosDAOTestFixture, ObtenerArtista){
   EXPECT_THROW(dao.obtenerArtista("artista"), std::runtime_error);
 }
 
+/**
+ * @brief Prueba del metodo insertarAlbum() de la clase BaseDatosDAO.
+ * Comprueba que se pueda insertar un album en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, InsertarAlbum){
   std::string album;
   std::string ruta;
@@ -99,6 +125,10 @@ TEST_F(BaseDatosDAOTestFixture, InsertarAlbum){
 
 }
 
+/**
+ * @brief Prueba del metodo obtenerAlbum() de la clase BaseDatosDAO.
+ * Comprueba que se pueda obtener la id de un album en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, ObtenerAlbum){
   std::string ruta;
     
@@ -118,6 +148,10 @@ TEST_F(BaseDatosDAOTestFixture, ObtenerAlbum){
   EXPECT_THROW(dao.obtenerAlbum("ruta"), std::runtime_error);
 }
 
+/**
+ * @brief Prueba del metodo insertarCancion() de la clase BaseDatosDAO.
+ * Comprueba que se pueda insertar una canción en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, InsertarCancion){
   Metadatos metadatos = Metadatos::Builder().build();
 
@@ -140,6 +174,11 @@ TEST_F(BaseDatosDAOTestFixture, InsertarCancion){
   EXPECT_THROW(dao.insertarCancion(Metadatos::Builder().build()), std::runtime_error);
 }
 
+/**
+ * @brief Prueba del metodo existeRuta() de la clase BaseDatosDAO.
+ * Comprueba que se pueda saber si existe una canción con una ruta
+ * especifica en la base de datos.
+ */
 TEST_F(BaseDatosDAOTestFixture, ExisteRuta){
   std::filesystem::path ruta = std::filesystem::path(TEST_DIR) / "demo.mp3";
 
