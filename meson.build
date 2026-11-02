@@ -82,6 +82,18 @@ test_basedatosDAO = executable(
     include_directories: [include_directories('src'), include_dir]
 )
 
+test_minero = executable(
+    'TestMinero',
+    'tests/minero/TestMinero.cpp',
+    'src/minero/Minero.cpp',
+    'src/bd/BaseDatosDAO.cpp',
+    'src/bd/AdministraBD.cpp',
+    'src/bd/Metadatos.cpp',
+    dependencies: [gtest, sqlite, utfcpp, taglib],
+    include_directories: [include_directories('src'), include_dir]
+)
+
 test('Pruebas AdministraBD', test_administraBD)
 test('Pruebas Metadatos', test_metadatos)
 test('Pruebas BaseDatosDAO', test_basedatosDAO)
+test('Pruebas Minero', test_minero)	

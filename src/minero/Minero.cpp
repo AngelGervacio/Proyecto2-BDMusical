@@ -8,6 +8,15 @@
 Minero::Minero(BaseDatosDAO& dao) : dao(dao){}
 
 void Minero::recorreDirectorio(const std::filesystem::path& directorio) const{
+  if(directorio.empty())
+    throw std::invalid_argument("No es un directorio valido");
+  
+  if(!std::filesystem::exists(directorio))
+    throw std::invalid_argument("El directorio no existe");
+
+  if(!std::filesystem::is_directory(directorio))
+    throw std::invalid_argument("La ruta no es un directorio");
+  
   for(auto& archivo : std::filesystem::recursive_directory_iterator(directorio)){
     if(archivo.path().extension() == ".mp3"){
       std::cout << "Minando " << archivo.path().filename() << "\n";

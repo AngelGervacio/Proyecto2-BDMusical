@@ -15,7 +15,8 @@
 
 /**
  * @class Minero
- * @brief Clase que recorre un directorio recursivamente.
+ * @brief Clase que recorre un directorio recursivamente y
+ * llena una base de datos con los metadatos de archivos mp3.
  */
 class Minero{
 private:
