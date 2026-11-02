@@ -19,7 +19,7 @@
  */
 class Minero{
 private:
-  BaseDatosDAO& dao; /*!< Administra Base de Datos > */
+  BaseDatosDAO& dao; /*!< Administra Base de Datos */
   
   /**
    * @brief Recorre recursivamente un directorio.

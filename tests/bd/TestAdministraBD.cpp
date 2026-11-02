@@ -15,8 +15,8 @@
  */
 class AdministraBDTestFixture : public ::testing::Test{
 protected:
-  std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testBD.db"; /*!< Ruta de la base de datos > */
-  AdministraBD admin{testBD}; /*!< Administrador de la base de datos > */
+  std::filesystem::path testBD = std::filesystem::path(TEST_DIR) / "testBD.db"; ///< Ruta de la base de datos.
+  AdministraBD admin{testBD}; ///< Administrador de la base de datos.
 
   /**
    * @brief Destructor del entorno de pruebas.

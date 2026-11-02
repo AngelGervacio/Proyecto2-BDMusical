@@ -19,7 +19,7 @@
  */
 class BaseDatosDAO{
 private:
-  AdministraBD& admin; /*!< Administra base de datos > */
+  AdministraBD& admin; ///< Administra base de datos.
   
 public:
   /**

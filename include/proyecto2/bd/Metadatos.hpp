@@ -15,13 +15,13 @@
  */
 class Metadatos{
 private:
-  std::filesystem::path ruta; /*!< Ruta de la canción> */
-  std::string titulo; /*!< Titulo de la canción> */
-  std::string artista; /*!< Artista de la canción> */
-  std::string album; /*!< Album de la canción> */
-  int pista; /*!< Pista de la canción> */
-  int anio; /*!< Año de la canción> */
-  std::string genero; /*!< Genero de la canción> */
+  std::filesystem::path ruta; ///< Ruta de la canción.
+  std::string titulo; ///< Titulo de la canción.
+  std::string artista; ///< Artista de la canción.
+  std::string album; ///< Album de la canción.
+  int pista; ///< Pista de la canción.
+  int anio; ///< Año de la canción.
+  std::string genero; ///< Genero de la canción.
 
 public:
 
@@ -31,13 +31,13 @@ public:
    */
   class Builder{
   private:
-    std::filesystem::path ruta; /*!< Ruta de la canción> */
-    std::string titulo; /*!< Titulo de la canción> */
-    std::string artista; /*!< Artista de la canción> */
-    std::string album; /*!< Album de la canción> */
-    int pista; /*!< Pista de la canción> */
-    int anio; /*!< Año de la canción> */
-    std::string genero; /*!< Genero de la canción> */
+    std::filesystem::path ruta; ///< Ruta de la canción.
+    std::string titulo; ///< Titulo de la canción.
+    std::string artista; ///< Artista de la canción.
+    std::string album; ///< Album de la canción.
+    int pista; ///< Pista de la canción.
+    int anio; ///< Año de la canción.
+    std::string genero; ///< Genero de la canción.
 
   public:
     
