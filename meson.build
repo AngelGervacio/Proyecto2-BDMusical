@@ -72,5 +72,16 @@ test_metadatos = executable(
     include_directories: [include_directories('src'), include_dir]
 )
 
+test_basedatosDAO = executable(
+    'TestBaseDatosDAO',
+    'tests/bd/TestBaseDatosDAO.cpp',
+    'src/bd/BaseDatosDAO.cpp',
+    'src/bd/AdministraBD.cpp',
+    'src/bd/Metadatos.cpp',
+    dependencies: [gtest, sqlite],
+    include_directories: [include_directories('src'), include_dir]
+)
+
 test('Pruebas AdministraBD', test_administraBD)
-test('Pruebas Metadatos', test_metadatos)	
+test('Pruebas Metadatos', test_metadatos)
+test('Pruebas BaseDatosDAO', test_basedatosDAO)

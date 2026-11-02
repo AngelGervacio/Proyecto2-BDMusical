@@ -11,14 +11,14 @@ bool BaseDatosDAO::existeRuta(const std::filesystem::path& cancion) const{
   if(!admin.estaAbierta())
     throw std::runtime_error("La base de datos no esta abierta.");
 
-  if(!std::filesystem::exists(cancion))
-    return false;
-
   std::string ruta = cancion.string();
 
   if(ruta.empty())
     return false;
 
+  if(!std::filesystem::exists(cancion))
+    return false;
+  
   sqlite3* bd = admin.getBaseDeDatos();
   const char* sql = "SELECT 1 FROM rolas WHERE path = ? LIMIT 1";
   sqlite3_stmt* stmt = nullptr;
@@ -156,7 +156,7 @@ int BaseDatosDAO::obtenerAlbum(const std::string& ruta) const{
   return id;
 }
 
-int BaseDatosDAO::insertarAlbum(const std::string& ruta, const std::string& nombre, int año) const{
+int BaseDatosDAO::insertarAlbum(const std::string& ruta, const std::string& nombre, int anio) const{
   if(!admin.estaAbierta())
     throw std::runtime_error("La base de datos no esta abierta.");
 
@@ -190,7 +190,7 @@ int BaseDatosDAO::insertarAlbum(const std::string& ruta, const std::string& nomb
     throw std::runtime_error(std::string("No se pudo insertar el album: ") + sqlite3_errmsg(bd));
   }
 
-  if((sqlite3_bind_int(stmt, 3, año)) != SQLITE_OK){
+  if((sqlite3_bind_int(stmt, 3, anio)) != SQLITE_OK){
     sqlite3_finalize(stmt);
     throw std::runtime_error(std::string("No se pudo insertar el album: ") + sqlite3_errmsg(bd));
   }

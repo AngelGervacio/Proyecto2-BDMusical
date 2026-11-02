@@ -5,38 +5,8 @@
 
 #include <gtest/gtest.h>
 #include <filesystem>
-#include <random>
-#include <vector>
 #include "proyecto2/bd/Metadatos.hpp"
-
-/**
- * @brief Regresa un nombre aleatorio,
- * @return un nombre aleatorio.
- */
-std::string nombreAleatorio(){
-  const std::vector<std::string> nombres = {
-    "Alice", "Bob", "Charlie", "Daniel"
-  };
-  
-  std::random_device random;
-  std::mt19937 gen(random());
-  std::uniform_int_distribution<> distrib(0, nombres.size() - 1);
-
-  int indice = distrib(gen);
-
-  return nombres[indice];
-}
-
-/**
- * @brief Regresa un número aleatorio,
- * @return un número aleatorio.
- */
-int numeroAleatorio(){  
-  std::random_device random;
-  std::mt19937 gen(random());
-  std::uniform_int_distribution<> distrib(0, 50);
-  return distrib(gen);
-}
+#include "../util/Util.hpp"
 
 /**
  * @brief Comprueba que los metadatos esten vacios.
