@@ -7,7 +7,7 @@ std::string rutaDirectorio = "";
 std::string rutaBD = "";
 
 void ayuda(){
-  std::string ayuda = "Modo de empleo: ./build/Minero [OPCIONES...]\n\n"
+  std::string ayuda = "Modo de empleo: ./build/src/Minero [OPCIONES...]\n\n"
     "Minero de MP3.\n\n"
     "\u001B[1mOPCIONES:\u001B[0m\n\n" 
     "  -d \u001B[4mdirectorio\u001B[0m\n"
@@ -20,12 +20,12 @@ void ayuda(){
     "         Muestra este mensaje de ayuda.\n\n"
     "\u001B[1mEJEMPLOS:\u001B[0m\n\n"
     "       Las opciones se pueden ingresar en cualquier orden, siempre y cuando se ingresen de forma correcta.\n\n"
-    "       ./build/Minero -d \u001B[4m~/Música\u001B[0m\n"
+    "       ./build/src/Minero -d \u001B[4m~/Música\u001B[0m\n"
     "              Se minara el directorio Música.\n\n"
-    "       ./build/Minero -d \u001B[4m~/Música\u001B[0m -b \u001B[4m~/Documentos/datos.db\u001B[0m\n"
+    "       ./build/src/Minero -d \u001B[4m~/Música\u001B[0m -b \u001B[4m~/Documentos/datos.db\u001B[0m\n"
     "              Se minara el directorio Música y se llenara la base de datos llamada datos.db que se encuentra\n"
     "              en el directorio documentos.\n\n"
-    "       ./build/Minero -h\n"
+    "       ./build/src/Minero -h\n"
     "              Muestra este mensaje de ayuda.\n\n";
 
   std::cout << ayuda;

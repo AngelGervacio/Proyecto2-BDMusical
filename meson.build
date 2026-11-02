@@ -18,13 +18,6 @@ add_project_arguments(
     language: 'cpp'
 )
 
-test_dir = meson.current_source_dir() / 'tests' / 'fixtures'
-
-add_project_arguments(
-    '-DTEST_DIR="' + test_dir + '"',
-    language: 'cpp'
-)
-
 gtest = dependency(
     'gtest_main',
     fallback: ['gtest', 'gtest_main_dep']
@@ -45,55 +38,5 @@ taglib = dependency(
     fallback: ['taglib', 'taglib_dep']
 )
 
-executable(
-    'Minero',
-    'src/minero/MineroMain.cpp',
-    'src/minero/Minero.cpp',
-    'src/bd/AdministraBD.cpp',
-    'src/bd/BaseDatosDAO.cpp',
-    'src/bd/Metadatos.cpp',
-    dependencies: [sqlite, utfcpp, taglib],
-    include_directories: [include_directories('src'), include_dir]
-)
-
-test_administraBD = executable(
-    'TestAdministraBD',
-    'tests/bd/TestAdministraBD.cpp',
-    'src/bd/AdministraBD.cpp',
-    dependencies: [gtest, sqlite],
-    include_directories: [include_directories('src'), include_dir]
-)
-
-test_metadatos = executable(
-    'TestMetadatos',
-    'tests/bd/TestMetadatos.cpp',
-    'src/bd/Metadatos.cpp',
-    dependencies: gtest,
-    include_directories: [include_directories('src'), include_dir]
-)
-
-test_basedatosDAO = executable(
-    'TestBaseDatosDAO',
-    'tests/bd/TestBaseDatosDAO.cpp',
-    'src/bd/BaseDatosDAO.cpp',
-    'src/bd/AdministraBD.cpp',
-    'src/bd/Metadatos.cpp',
-    dependencies: [gtest, sqlite],
-    include_directories: [include_directories('src'), include_dir]
-)
-
-test_minero = executable(
-    'TestMinero',
-    'tests/minero/TestMinero.cpp',
-    'src/minero/Minero.cpp',
-    'src/bd/BaseDatosDAO.cpp',
-    'src/bd/AdministraBD.cpp',
-    'src/bd/Metadatos.cpp',
-    dependencies: [gtest, sqlite, utfcpp, taglib],
-    include_directories: [include_directories('src'), include_dir]
-)
-
-test('Pruebas AdministraBD', test_administraBD)
-test('Pruebas Metadatos', test_metadatos)
-test('Pruebas BaseDatosDAO', test_basedatosDAO)
-test('Pruebas Minero', test_minero)	
+subdir('src')
+subdir('tests')
