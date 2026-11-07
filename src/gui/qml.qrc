@@ -1,0 +1,83 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TemaInterfaz.qml</file>
+	<file>HeaderInterfaz.qml</file>
+	<file>Tabla.qml</file>
+	<file>Cancion.qml</file>
+	<file>FooterInterfaz.qml</file>
+	
+	<file>imagenes/botones/temaNoChecked_normal.png</file>
+	<file>imagenes/botones/temaNoChecked_hover.png</file>
+	<file>imagenes/botones/temaChecked_normal.png</file>
+	<file>imagenes/botones/temaChecked_hover.png</file>
+
+	<file>imagenes/botones/personaNoChecked_normal.png</file>
+	<file>imagenes/botones/personaNoChecked_hover.png</file>
+	<file>imagenes/botones/personaChecked_normal.png</file>
+	<file>imagenes/botones/personaChecked_hover.png</file>
+
+	<file>imagenes/botones/mineroNoChecked_normal.png</file>
+	<file>imagenes/botones/mineroNoChecked_hover.png</file>
+	<file>imagenes/botones/mineroChecked_normal.png</file>
+	<file>imagenes/botones/mineroChecked_hover.png</file>
+
+	<file>imagenes/botones/artistaNoChecked_normal.png</file>
+	<file>imagenes/botones/artistaNoChecked_hover.png</file>
+	<file>imagenes/botones/artistaChecked_normal.png</file>
+	<file>imagenes/botones/artistaChecked_hover.png</file>
+
+	<file>imagenes/botones/cancionNoChecked_normal.png</file>
+	<file>imagenes/botones/cancionNoChecked_hover.png</file>
+	<file>imagenes/botones/cancionChecked_normal.png</file>
+	<file>imagenes/botones/cancionChecked_hover.png</file>
+
+	<file>imagenes/botones/albumNoChecked_normal.png</file>
+	<file>imagenes/botones/albumNoChecked_hover.png</file>
+	<file>imagenes/botones/albumChecked_normal.png</file>
+	<file>imagenes/botones/albumChecked_hover.png</file>
+
+	<file>imagenes/botones/playNoChecked_normal.png</file>
+	<file>imagenes/botones/playNoChecked_hover.png</file>
+	<file>imagenes/botones/playChecked_normal.png</file>
+	<file>imagenes/botones/playChecked_hover.png</file>
+
+	<file>imagenes/botones/pauseNoChecked_normal.png</file>
+	<file>imagenes/botones/pauseNoChecked_hover.png</file>
+	<file>imagenes/botones/pauseChecked_normal.png</file>
+	<file>imagenes/botones/pauseChecked_hover.png</file>
+
+	<file>imagenes/botones/siguienteNoChecked_normal.png</file>
+	<file>imagenes/botones/siguienteNoChecked_hover.png</file>
+	<file>imagenes/botones/siguienteChecked_normal.png</file>
+	<file>imagenes/botones/siguienteChecked_hover.png</file>
+
+	<file>imagenes/botones/anteriorNoChecked_normal.png</file>
+	<file>imagenes/botones/anteriorNoChecked_hover.png</file>
+	<file>imagenes/botones/anteriorChecked_normal.png</file>
+	<file>imagenes/botones/anteriorChecked_hover.png</file>
+
+	<file>imagenes/botones/infoNoChecked_normal.png</file>
+	<file>imagenes/botones/infoNoChecked_hover.png</file>
+	<file>imagenes/botones/infoChecked_normal.png</file>
+	<file>imagenes/botones/infoChecked_hover.png</file>
+
+	<file>imagenes/botones/tablaNoChecked_normal.png</file>
+	<file>imagenes/botones/tablaNoChecked_hover.png</file>
+	<file>imagenes/botones/tablaChecked_normal.png</file>
+	<file>imagenes/botones/tablaChecked_hover.png</file>
+
+	<file>imagenes/botones/tablaVistaNoChecked_normal.png</file>
+	<file>imagenes/botones/tablaVistaNoChecked_hover.png</file>
+	<file>imagenes/botones/tablaVistaChecked_normal.png</file>
+	<file>imagenes/botones/tablaVistaChecked_hover.png</file>
+
+	<file>imagenes/botones/cuadriculaNoChecked_normal.png</file>
+	<file>imagenes/botones/cuadriculaNoChecked_hover.png</file>
+	<file>imagenes/botones/cuadriculaChecked_normal.png</file>
+	<file>imagenes/botones/cuadriculaChecked_hover.png</file>
+
+	<file>imagenes/cover.png</file>
+	<file>imagenes/artist.png</file>
+    </qresource>
+</RCC>

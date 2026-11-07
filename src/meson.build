@@ -12,3 +12,5 @@ executable(
     dependencies: [sqlite, utfcpp, taglib],
     include_directories: include_dir
 )
+
+subdir('gui')
