@@ -10,6 +10,11 @@
 #include <filesystem>
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
+#include <taglib/mpegfile.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/attachedpictureframe.h>
+#include <fstream>
+#include <string>
 #include "proyecto2/bd/Metadatos.hpp"
 #include "proyecto2/bd/BaseDatosDAO.hpp"
 
@@ -34,6 +39,20 @@ private:
    * @param cancion La ruta de la canción a registrar.
    */
   void registrarCancion(const std::filesystem::path& cancion) const;
+  
+  /**
+   * @brief Extrae la imagen de una canción.
+   * @param cancion La ruta de la canción de la cual se extraera la imagen.
+   * @param tipo La imagen que se extraera.
+   */
+  void extraerImagen(const std::filesystem::path& cancion, int id, TagLib::ID3v2::AttachedPictureFrame::Type tipo,
+		    const std::filesystem::path& directorio) const;
+
+  /**
+   * @brief Regresa la ruta de el directorio de cache de el usuario.
+   * @return La ruta de el directorio de cache de el usuario.
+   */
+  std::filesystem::path obtenerDirectorioCache() const;
 
 public:
   /**

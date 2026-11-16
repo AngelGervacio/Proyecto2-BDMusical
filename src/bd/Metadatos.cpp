@@ -5,6 +5,11 @@
 
 #include "proyecto2/bd/Metadatos.hpp"
 
+Metadatos::Builder& Metadatos::Builder::setId(int id){
+  this->id = id;
+  return *this;
+}
+
 Metadatos::Builder& Metadatos::Builder::setRuta(const std::filesystem::path& ruta){
   this->ruta = ruta;
   return *this;
@@ -41,16 +46,18 @@ Metadatos::Builder& Metadatos::Builder::setGenero(const std::string& genero){
 }
 
 Metadatos Metadatos::Builder::build(){
-  return Metadatos(ruta, titulo, artista, album, pista, anio, genero);
+  return Metadatos(id, ruta, titulo, artista, album, pista, anio, genero);
 }
 
-Metadatos::Metadatos(const std::filesystem::path& ruta,
+Metadatos::Metadatos(int id,
+		     const std::filesystem::path& ruta,
 		     const std::string& titulo,
 		     const std::string& artista,
 		     const std::string& album,
 		     int pista,
 		     int anio,
 		     const std::string& genero){
+  this->id = id;
   this->ruta = ruta;
   this->titulo = titulo;
   this->artista = artista;
@@ -58,6 +65,10 @@ Metadatos::Metadatos(const std::filesystem::path& ruta,
   this->pista = pista;
   this->anio = anio;
   this->genero = genero;
+}
+
+int Metadatos::getId() const{
+  return id;
 }
 
 const std::filesystem::path& Metadatos::getRuta() const{

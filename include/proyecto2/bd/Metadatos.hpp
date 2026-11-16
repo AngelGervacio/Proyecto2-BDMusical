@@ -15,6 +15,7 @@
  */
 class Metadatos{
 private:
+  int id; ///< Id de la canción.
   std::filesystem::path ruta; ///< Ruta de la canción.
   std::string titulo; ///< Titulo de la canción.
   std::string artista; ///< Artista de la canción.
@@ -31,6 +32,7 @@ public:
    */
   class Builder{
   private:
+    int id; ///< Id de la canción.
     std::filesystem::path ruta; ///< Ruta de la canción.
     std::string titulo; ///< Titulo de la canción.
     std::string artista; ///< Artista de la canción.
@@ -40,6 +42,13 @@ public:
     std::string genero; ///< Genero de la canción.
 
   public:
+
+    /**
+     * @brief Asigna un id a la canción
+     * @param id El id de la canción.
+     * @return Un Builder con id asignado.
+     */
+    Builder& setId(int id);
     
     /**
      * @brief Asigna una ruta a la canción.
@@ -106,20 +115,27 @@ public:
    * @param anio El año de la canción.
    * @param genero El genero de la canción.
    */
-  Metadatos(const std::filesystem::path& ruta,
+  Metadatos(int id,
+	    const std::filesystem::path& ruta,
 	    const std::string& titulo,
 	    const std::string& artista,
 	    const std::string& album,
 	    int pista,
 	    int anio,
 	    const std::string& genero);
-    
+
+  /**
+   * @brief Regresa el id de la canción.
+   * @return El id de la canción.
+   */
+  int getId() const;
+  
   /**
    * @brief Regresa la ruta de la canción.
    * @return La ruta de la canción.
    */
   const std::filesystem::path& getRuta() const;
-
+  
   /**
    * @brief Regresa el titulo de la canción.
    * @return El titulo de la canción.

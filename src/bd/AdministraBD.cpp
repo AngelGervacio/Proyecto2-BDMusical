@@ -19,7 +19,7 @@ AdministraBD::AdministraBD(const std::string& ruta){
   if(std::filesystem::exists(pathBD) && std::filesystem::is_directory(pathBD))
     throw std::invalid_argument("Ruta ingresada no valida: es un directorio.");
 
-  std::filesystem::path directorio = pathBD.parent_path();
+  std::filesystem::path directorio =  pathBD.parent_path();
 
   if(!directorio.empty() && !std::filesystem::exists(directorio))
     try{
@@ -30,6 +30,7 @@ AdministraBD::AdministraBD(const std::string& ruta){
   
   rutaBD = ruta;
   bd = nullptr;
+  rutaIngresada = true;
 }
 
 AdministraBD::~AdministraBD(){
@@ -53,6 +54,8 @@ void AdministraBD::crear(){
   if(esquema.bad())
     throw std::runtime_error("No se pudo leer el archivo del esquema SQL.");
 
+  texto += "INSERT INTO performers VALUES (0, 2, '');";
+
   const char* sql = texto.c_str();
 
   char* mensajeError = nullptr;
@@ -63,6 +66,37 @@ void AdministraBD::crear(){
     std::string mensaje = mensajeError ? mensajeError : sqlite3_errmsg(bd);
     sqlite3_free(mensajeError);
     throw std::runtime_error("No se pudo crear el esquema: " + mensaje);
+  }
+
+  std::filesystem::path directorio;
+  if(!rutaIngresada){
+    const char* xdg = std::getenv("XDG_CACHE_HOME");
+    
+    if(xdg == nullptr || *xdg == '\0' || !std::filesystem::path(xdg).is_absolute()){
+      xdg = std::getenv("HOME");
+      if(xdg == nullptr || *xdg == '\0'){
+	throw std::runtime_error("No se pudo determinar el directorio del usuario.");
+      }
+      directorio = std::filesystem::path(xdg) / ".cache";
+    }else{
+      directorio = xdg;
+    }
+
+    directorio /= "proyecto2";
+    
+  }else{
+    directorio = std::filesystem::path(rutaBD);
+    directorio = directorio.parent_path();
+    directorio /= "cache_proyecto2";
+  }
+  
+  if(std::filesystem::exists(directorio))
+    std::filesystem::remove_all(directorio);
+ 
+  try{
+    std::filesystem::create_directories(directorio);
+  }catch(std::filesystem::filesystem_error&){
+    throw std::runtime_error("No se pudo acceder al directorio de cache.");
   }
 }
 
