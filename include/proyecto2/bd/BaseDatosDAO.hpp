@@ -129,7 +129,7 @@ public:
 
   /**
    * @brief Actualiza el album de una canción.
-   * @param idCanción El id de la canción a la cual se le actualizara su album.
+   * @param idCancion El id de la canción a la cual se le actualizara su album.
    * @param idAlbum El nuevo album de la canción.
    */
   void actualizarAlbumEnCancion(int idCancion, int idAlbum);
@@ -206,7 +206,7 @@ public:
 
   /**
    * @brief Actualiza el artista de una canción.
-   * @param idCanción El id de la canción a actualizar.
+   * @param idCancion El id de la canción a actualizar.
    * @param idArtista El id de el nuevo artista de la canción.
    */
   void actualizarArtistaEnCancion(int idCancion, int idArtista);

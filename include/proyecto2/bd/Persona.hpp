@@ -23,6 +23,7 @@ private:
 public:
   /**
    * @brief Constructor de la clase.
+   * @param id El id de la persona.
    * @param artistico El nombre artistico de la persona.
    * @param real El nombre real de la persona.
    * @param nacimiento La fecha de nacimiento de la persona.

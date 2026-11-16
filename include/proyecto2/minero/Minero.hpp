@@ -43,7 +43,9 @@ private:
   /**
    * @brief Extrae la imagen de una canción.
    * @param cancion La ruta de la canción de la cual se extraera la imagen.
+   * @param id El id de la canción o de el artista.
    * @param tipo La imagen que se extraera.
+   * @param directorio El directorio donde se guardara la imagen.
    */
   void extraerImagen(const std::filesystem::path& cancion, int id, TagLib::ID3v2::AttachedPictureFrame::Type tipo,
 		    const std::filesystem::path& directorio) const;

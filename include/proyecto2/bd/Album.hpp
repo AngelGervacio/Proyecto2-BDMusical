@@ -22,6 +22,7 @@ private:
 public:
   /**
    * @brief Constructor de la clase.
+   * @param id El id de el album.
    * @param ruta La ruta del album.
    * @param nombre El nombre del album.
    * @param anio El año del album.

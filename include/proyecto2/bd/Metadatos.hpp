@@ -107,6 +107,7 @@ public:
 
   /**
    * @brief Constructor de la clase Metadatos.
+   * @param id El id de la canción.
    * @param ruta La ruta de la canción.
    * @param titulo El titulo de la canción.
    * @param artista El artista de la canción.
