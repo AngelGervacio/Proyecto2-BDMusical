@@ -24,6 +24,10 @@ test_basedatosDAO = executable(
     '../src/bd/BaseDatosDAO.cpp',
     '../src/bd/AdministraBD.cpp',
     '../src/bd/Metadatos.cpp',
+    '../src/bd/Album.cpp',
+    '../src/bd/Artista.cpp',
+    '../src/bd/Banda.cpp',
+    '../src/bd/Persona.cpp',
     dependencies: [gtest, sqlite],
     include_directories: include_dir,
     cpp_args: [test_dir]
@@ -36,6 +40,10 @@ test_minero = executable(
     '../src/bd/BaseDatosDAO.cpp',
     '../src/bd/AdministraBD.cpp',
     '../src/bd/Metadatos.cpp',
+    '../src/bd/Album.cpp',
+    '../src/bd/Artista.cpp',
+    '../src/bd/Banda.cpp',
+    '../src/bd/Persona.cpp',
     dependencies: [gtest, sqlite, utfcpp, taglib],
     include_directories: include_dir,
     cpp_args: [test_dir]
