@@ -8,6 +8,10 @@
 
 #include <string>
 
+/**
+ * @class Album
+ * @brief Clase que representa a un album.
+ */
 class Album{
 private:
   int id; ///< Id del album.

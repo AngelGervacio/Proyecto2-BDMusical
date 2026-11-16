@@ -8,6 +8,10 @@
 
 #include <string>
 
+/**
+ * @class Artista
+ * @brief Clase que representa a un artista.
+ */
 class Artista{
 private:
   int id; ///< Id del artista.

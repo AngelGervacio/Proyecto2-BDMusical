@@ -8,6 +8,10 @@
 
 #include <string>
 
+/**
+ * @class Persona
+ * @brief Clase que representa a una persona.
+ */
 class Persona{
 private:
   int id; ///< Id de la persona.

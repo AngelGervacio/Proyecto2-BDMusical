@@ -8,6 +8,10 @@
 
 #include <string>
 
+/**
+ * @class Banda
+ * @brief Clase que representa a una banda.
+ */
 class Banda{
 private:
   int id; ///< Id de la banda.
