@@ -19,7 +19,7 @@
 
 /**
  * @class BaseDatosDAO
- * @brief Clase que implementa el patro de diseño Data Access Object
+ * @brief Clase que implementa el patron de diseño Data Access Object
  * para interactuar con la base de datos.
  */
 class BaseDatosDAO{

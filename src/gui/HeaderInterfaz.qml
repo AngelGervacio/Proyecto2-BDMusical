@@ -1,13 +1,22 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
+import QtCore
 
 ToolBar{
+    id: headerInterfaz
 
     property alias temaBoton: temaBoton
     property alias cambiarTablaCuadricula: cambiarTablaCuadricula
 
     property var tema
+    property string directorioMinero: ""
+
+    signal agregarPersona()
+    signal editarAlbum()
+    signal editarCancion()
+    signal editarArtista()
 
     topPadding: 10
     leftPadding: 12
@@ -16,6 +25,18 @@ ToolBar{
 
     background: Rectangle{
         color: tema.colorBarra
+    }
+
+    FolderDialog{
+        id: dialogoDirectorio
+        title: "Elegir directorio a minar"
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+
+        onAccepted: {
+            directorioMinero = selectedFolder.toString().replace("file://", "")
+            if(directorioMinero !== "")
+                controlador.minarDirectorio(directorioMinero)
+        }
     }
 
     RowLayout{
@@ -110,6 +131,10 @@ ToolBar{
                 id: mouseAreaMinero
                 anchors.fill: parent
                 hoverEnabled: true
+
+                onClicked: {
+                    dialogoDirectorio.open()
+                }
             }
         }
 
@@ -145,6 +170,10 @@ ToolBar{
                 id: mouseAreaAgregarPersona
                 anchors.fill: parent
                 hoverEnabled: true
+
+                onClicked: {
+                    agregarPersona()
+                }
             }
         }
 
@@ -180,6 +209,10 @@ ToolBar{
                 id: mouseAreaEditarArtista
                 anchors.fill: parent
                 hoverEnabled: true
+
+                onClicked: {
+                    editarArtista()
+                }
             }
         }
 
@@ -215,6 +248,10 @@ ToolBar{
                 id: mouseAreaEditarCancion
                 anchors.fill: parent
                 hoverEnabled: true
+
+                onClicked: {
+                    editarCancion()
+                }
             }
         }
 
@@ -250,6 +287,10 @@ ToolBar{
                 id: mouseAreaEditarAlbum
                 anchors.fill: parent
                 hoverEnabled: true
+
+                onClicked: {
+                    editarAlbum()
+                }
             }
         }
 

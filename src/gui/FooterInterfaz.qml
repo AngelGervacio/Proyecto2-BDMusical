@@ -7,8 +7,16 @@ Rectangle{
     property var tema
     property var vista
     property var header
+    property var idSeleccionada
+    property var filaRep
+    property var cancion
 
+    property alias repBoton: repBoton
+
+    property int idReproduccion: -1
     property bool ocultar: false
+
+    signal solicitarCambio(int id, int fila)
 
     width: parent.width
     height: barraReproduccion.implicitHeight + toolBarFooter.implicitHeight
@@ -22,8 +30,8 @@ Rectangle{
             Layout.fillWidth: true
 
             from: 0
-            to: 100
-            value: 35
+            to: reproductor.duracion
+            value: reproductor.posicion
 
             handle: Rectangle{
                 width: 15
@@ -33,6 +41,10 @@ Rectangle{
 
                 x: barraReproduccion.leftPadding + barraReproduccion.visualPosition * (barraReproduccion.availableWidth - width)
                 y: (barraReproduccion.height - height) / 2
+            }
+
+            onMoved: {
+                reproductor.cambiaPosicion(value)
             }
         }
 
@@ -64,18 +76,21 @@ Rectangle{
 
                     Image{
                         id: portadaFooter
+                        cache: false
                         Layout.alignment: Qt.AlignLeft
                         Layout.preferredHeight: 80
                         Layout.preferredWidth: 80
-                        source: "qrc:/imagenes/cover.png"
+                        source: cancion.imagen.toString() !== "" ? cancion.imagen : "qrc:/imagenes/cover.png"
                         fillMode: Image.PreserveAspectFit
 
-                        y: ocultar ? 100 : 0
+                        transform: Translate {
+                            y: ocultar ? 100 : 0
 
-                        Behavior on y{
-                            NumberAnimation{
-                                duration: 400
-                                easing.type: Easing.InCurve
+                            Behavior on y {
+                                NumberAnimation {
+                                    duration: 400
+                                    easing.type: Easing.InCurve
+                                }
                             }
                         }
                     }
@@ -86,18 +101,21 @@ Rectangle{
                         Layout.alignment: Qt.AlignLeft
                         spacing: 10
 
-                        y: ocultar ? 100 : 20
+                        transform: Translate {
+                            y: ocultar ? 100 : 0
 
-                        Behavior on y{
-                            NumberAnimation{
-                                duration: 400
-                                easing.type: Easing.InCurve
+                            Behavior on y {
+                                NumberAnimation {
+                                    duration: 400
+                                    easing.type: Easing.InCurve
+                                }
                             }
                         }
 
                         Label{
-                            text: "Canción"
-                            color: tema.colorTexto
+                            id: infoTitulo
+                            text: cancion.titulo
+                            color: tema.colorTexto || ""
                             font.pixelSize: 16
                             font.bold: true
                             width: 180
@@ -105,7 +123,8 @@ Rectangle{
                         }
 
                         Label{
-                            text: "Artista"
+                            id: infoArtista
+                            text: cancion.artista || ""
                             color: tema.colorTexto
                             font.pixelSize: 14
                             width: 180
@@ -153,6 +172,18 @@ Rectangle{
                             id: mouseAreaAnterior
                             anchors.fill: parent
                             hoverEnabled: true
+
+                            onClicked: {
+                                if(filaRep !== -1){
+                                    let anteriorFila = filaRep - 1
+                                    let anteriorId = cancionesModelo.obtenerId(anteriorFila)
+
+                                    if(anteriorId !== -1){
+                                        solicitarCambio(anteriorId, anteriorFila)
+                                        repBoton.checked = true
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -187,9 +218,9 @@ Rectangle{
                         ToolTip.visible: hovered
                         ToolTip.text: {
                             if(checked)
-                                "Reproducir canción."
-                            else
                                 "Pausar canción."
+                            else
+                                "Reproducir canción."
                         }
                         ToolTip.delay: 500
 
@@ -201,6 +232,10 @@ Rectangle{
                             onClicked: {
                                 if(parent.checked){
                                     parent.checked = false
+                                    reproductor.pausar()
+                                }else if(idReproduccion != -1){
+                                    reproductor.reproducir(controlador.obtenerRuta(idReproduccion))
+                                    parent.checked = true
                                 }else
                                     parent.checked = true
                             }
@@ -239,6 +274,18 @@ Rectangle{
                             id: mouseAreaSiguiente
                             anchors.fill: parent
                             hoverEnabled: true
+
+                            onClicked: {
+                                if(filaRep !== -1){
+                                    let siguienteFila = filaRep + 1
+                                    let siguienteId = cancionesModelo.obtenerId(siguienteFila)
+
+                                    if(siguienteId !== -1){
+                                        solicitarCambio(siguienteId, siguienteFila)
+                                        repBoton.checked = true
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -266,7 +313,7 @@ Rectangle{
 
                             from: 0
                             to: 100
-                            value: 35
+                            value: reproductor.volumen
 
                             handle: Rectangle{
                                 width: 15
@@ -276,6 +323,10 @@ Rectangle{
 
                                 x: barraVolumen.leftPadding + barraVolumen.visualPosition * (barraVolumen.availableWidth - width)
                                 y: (barraVolumen.height - height) / 2
+                            }
+
+                            onMoved: {
+                                reproductor.cambiaVolumen(value)
                             }
                         }
                     }
@@ -343,6 +394,20 @@ Rectangle{
                         }
                     }
                 }
+            }
+        }
+    }
+
+    Connections{
+        target: reproductor
+
+        function onFinalizoCancion(){
+            let siguienteFila = filaRep + 1
+            let siguienteId = cancionesModelo.obtenerId(siguienteFila)
+
+            if(siguienteId !== -1){
+                solicitarCambio(siguienteId, siguienteFila)
+                repBoton.checked = true
             }
         }
     }

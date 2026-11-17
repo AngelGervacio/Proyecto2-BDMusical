@@ -5,11 +5,14 @@ import QtQuick.Effects
 
 Rectangle{
     property var tema
+    property var cancion
 
     color: tema.colorFondo
 
     Image{
-        source: "qrc:/imagenes/cover.png"
+        id: portadaFondo
+        cache: false
+        source: cancion.imagen.toString() !== "" ? cancion.imagen : "qrc:/imagenes/cover.png"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         layer.enabled: true
@@ -34,14 +37,16 @@ Rectangle{
             Layout.alignment: Qt.AlignCenter
 
             Image{
-                id: portadaImagen
-                source: "qrc:/imagenes/cover.png"
+                id: portada
+                cache: false
+                source: cancion.imagen.toString() !== "" ? cancion.imagen : "qrc:/imagenes/cover.png"
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
             }
 
             Image{
-                source: "qrc:/imagenes/artist.png"
+                cache: false
+                source: cancion.imagenArtista.toString() !== "" ? cancion.imagenArtista : "qrc:/imagenes/artist.png"
                 fillMode: Image.PreserveAspectFit
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
@@ -64,7 +69,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignCenter
 
                 Label{
-                    text: "Canción"
+                    text: cancion.titulo
                     color: tema.colorTexto
                     font.pixelSize: 18
                     Layout.preferredWidth: 270
@@ -73,7 +78,7 @@ Rectangle{
                 }
 
                 Label{
-                    text: "Artista"
+                    text: cancion.artista
                     color: tema.colorTexto
                     font.pixelSize: 16
                     Layout.preferredWidth: 270
@@ -82,7 +87,7 @@ Rectangle{
                 }
 
                 Label{
-                    text: "Album"
+                    text: cancion.album
                     color: tema.colorTexto
                     font.pixelSize: 14
                     Layout.preferredWidth: 270
@@ -90,7 +95,7 @@ Rectangle{
                 }
 
                 Label{
-                    text: "Pista"
+                    text: cancion.pista
                     color: tema.colorTexto
                     font.pixelSize: 14
                     Layout.preferredWidth: 270
@@ -98,7 +103,7 @@ Rectangle{
                 }
 
                 Label{
-                    text: "Año"
+                    text: cancion.anio
                     color: tema.colorTexto
                     font.pixelSize: 14
                     Layout.preferredWidth: 270
@@ -106,7 +111,7 @@ Rectangle{
                 }
 
                 Label{
-                    text: "Genero"
+                    text: cancion.genero
                     color: tema.colorTexto
                     font.pixelSize: 14
                     Layout.preferredWidth: 270

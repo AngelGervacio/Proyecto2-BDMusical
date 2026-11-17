@@ -4,14 +4,17 @@ import QtQuick.Layouts
 import Qt.labs.qmlmodels
 
 Rectangle{
-
     property var tema
-
+    property var repBoton
     property var vistaCuadricula
+
+    property int idSeleccionada: -1
 
     width: parent.width
     height: parent.height
     color: tema.colorFondo
+
+    signal reproducirCancion(int id, int fila)
 
     ColumnLayout{
         anchors{
@@ -89,29 +92,13 @@ Rectangle{
                     return tabla.width / tabla.columns
                 }
 
-                model: TableModel{
-                    TableModelColumn{display: "Titulo"}
-                    TableModelColumn{display: "Artista"}
-                    TableModelColumn{display: "Album"}
-                    TableModelColumn{display: "Genero"}
-
-                    rows:[
-                        { "Titulo": "Canción 1",
-                          "Artista": "Artista 1",
-                          "Album": "Álbum 1",
-                          "Genero": "Genero 1"},
-
-                        { "Titulo": "Canción 2",
-                          "Artista": "Artista 2",
-                          "Album": "Álbum 2",
-                          "Genero": "Genero 2"}
-                    ]
-                }
+                model: cancionesModelo
 
                 delegate: Rectangle{
+                    required property int idCancion
                     implicitHeight: 35;
                     required property int row
-                    color: tabla.currentRow === row ? tema.colorSobre : tema.colorBoton
+                    color: tabla.selectionModel.currentIndex.row === row ? tema.colorSobre : tema.colorBoton
 
                     Text{
                         text: display
@@ -123,6 +110,22 @@ Rectangle{
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         elide: Text.ElideRight
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+
+                        onClicked:{
+                            tabla.selectionModel.setCurrentIndex(tabla.model.index(row, 0), ItemSelectionModel.ClearAndSelect | ItemSelectionModel.Rows)
+
+                            idSeleccionada = row
+                        }
+
+                        onDoubleClicked: {
+                            reproducirCancion(idCancion, row)
+                            reproductor.reproducir(controlador.obtenerRuta(idCancion))
+                            repBoton.checked = true
+                        }
                     }
                 }
             }
@@ -138,32 +141,32 @@ Rectangle{
                 leftMargin: 40
 
                 delegate: Rectangle{
+                    required property int idCancion
+                    required property string titulo
+                    required property string artista
+                    required property int index
+                    required property string portada
                     width: 140
                     height: 180
-                    color: tema.colorBoton
+                    color: tabla.selectionModel.currentIndex.row === index ? tema.colorBoton : tema.colorBarra
                     radius: 5
 
                     ColumnLayout{
                         anchors.fill: parent
                         anchors.margins: 10
 
-                        Rectangle {
+                        Image{
+                            id: imagenPortadaGrid
                             Layout.preferredHeight: 120
                             Layout.preferredWidth: 120
-                            color: tema.colorSobre
-                            radius: 5
+                            fillMode: Image.PreserveAspectCrop
 
-                            Text {
-                            anchors.centerIn: parent
-                            text: "Imagen"
-                            font.pixelSize: 12
-                            color: tema.colorTexto
-                            }
+                            source: portada !== "" ? "file://" + portada : "qrc:/imagenes/cover.png"
                         }
 
                         Text {
                             Layout.fillWidth: true
-                            text: tabla.model.getRow(index).Titulo
+                            text: titulo
                             color: tema.colorTexto
                             elide: Text.ElideRight
                             font.pixelSize: 14
@@ -174,12 +177,28 @@ Rectangle{
 
                         Text {
                             Layout.fillWidth: true
-                            text: tabla.model.getRow(index).Artista
+                            text: artista
                             color: tema.colorTexto
                             elide: Text.ElideRight
                             font.pixelSize: 12
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+
+                        onClicked:{
+                            tabla.selectionModel.setCurrentIndex(tabla.model.index(index, 0), ItemSelectionModel.ClearAndSelect | ItemSelectionModel.Rows)
+
+                            idSeleccionada = index
+                        }
+
+                        onDoubleClicked: {
+                            reproducirCancion(idCancion, index)
+                            reproductor.reproducir(controlador.obtenerRuta(idCancion))
+                            repBoton.checked = true
                         }
                     }
                 }

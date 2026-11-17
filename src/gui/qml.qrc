@@ -6,6 +6,15 @@
 	<file>Tabla.qml</file>
 	<file>Cancion.qml</file>
 	<file>FooterInterfaz.qml</file>
+	<file>DialogoAgregarPersona.qml</file>
+	<file>Calendario.qml</file>
+	<file>DialogoEditarAlbum.qml</file>
+	<file>DialogoEditarCancion.qml</file>
+	<file>DialogoTipoInterprete.qml</file>
+	<file>DialogoEditarSolista.qml</file>
+	<file>DialogoEditarBanda.qml</file>
+	<file>DialogoMiembrosBanda.qml</file>
+	<file>DialogoEditarPersona.qml</file>
 	
 	<file>imagenes/botones/temaNoChecked_normal.png</file>
 	<file>imagenes/botones/temaNoChecked_hover.png</file>
@@ -77,7 +86,15 @@
 	<file>imagenes/botones/cuadriculaChecked_normal.png</file>
 	<file>imagenes/botones/cuadriculaChecked_hover.png</file>
 
+	<file>imagenes/botones/calendarioNoChecked_normal.png</file>
+	<file>imagenes/botones/calendarioNoChecked_hover.png</file>
+	<file>imagenes/botones/calendarioChecked_normal.png</file>
+	<file>imagenes/botones/calendarioChecked_hover.png</file>
+
 	<file>imagenes/cover.png</file>
 	<file>imagenes/artist.png</file>
+	
+	<file>imagenes/minandoAnimChecked.gif</file>
+	<file>imagenes/minandoAnimNoChecked.gif</file>	
     </qresource>
 </RCC>
