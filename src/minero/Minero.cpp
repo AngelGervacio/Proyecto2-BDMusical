@@ -5,7 +5,7 @@
 
 #include "proyecto2/minero/Minero.hpp"
 
-Minero::Minero(BaseDatosDAO& dao) : dao(dao){}
+Minero::Minero(CancionesDAO& canciones, ArtistasDAO& artistas, AlbumsDAO& albums) : canciones(canciones), artistas(artistas), albums(albums){}
 
 void Minero::recorreDirectorio(const std::filesystem::path& directorio) const{
   if(directorio.empty())
@@ -26,7 +26,7 @@ void Minero::recorreDirectorio(const std::filesystem::path& directorio) const{
 }
 
 void Minero::registrarCancion(const std::filesystem::path& cancion) const{
-  if(dao.existeRuta(cancion))
+  if(canciones.existeCancion(cancion))
     return;
 
   TagLib::FileRef archivo(cancion.c_str());
@@ -41,17 +41,18 @@ void Minero::registrarCancion(const std::filesystem::path& cancion) const{
   int anio = static_cast<int>(archivo.tag()->year());
   std::string genero = archivo.tag()->genre().to8Bit(true);
 
-  int id = dao.insertarCancion(Metadatos::Builder()
-			       .setRuta(cancion)
-			       .setTitulo(titulo)
-			       .setArtista(artista)
-			       .setAlbum(album)
-			       .setPista(pista)
-			       .setAnio(anio)
-			       .setGenero(genero)
-			       .build());
+  int idArtista = (artista.empty()) ? 0 : artistas.insertarArtista(artista);
+  int idAlbum = (album.empty()) ? 0 : albums.insertarAlbum(Album(-1, cancion.parent_path().string(), album, anio));
 
-  int idArtista = (artista.empty()) ? -1 : dao.obtenerArtista(artista);
+  int id = canciones.insertarCancion(Metadatos::Builder()
+				     .setRuta(cancion)
+				     .setTitulo(titulo)
+				     .setArtista(artista)
+				     .setAlbum(album)
+				     .setPista(pista)
+				     .setAnio(anio)
+				     .setGenero(genero)
+				     .build(), idArtista, idAlbum);
 
   if(id != -1)
     extraerImagen(cancion, id, TagLib::ID3v2::AttachedPictureFrame::FrontCover, obtenerDirectorioCache());

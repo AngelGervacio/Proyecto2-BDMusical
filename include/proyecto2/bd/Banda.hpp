@@ -33,25 +33,25 @@ public:
    * @brief Regresa el id de la banda.
    * @return El id de la banda.
    */
-  int getId();
+  int getId() const;
 
   /**
    * @brief Regresa el nombre de la banda.
    * @return El nombre de la banda.
    */
-  std::string getNombre();
+  std::string getNombre() const;
 
   /**
    * @brief Regresa la fecha de formación de la banda.
    * @return La fecha de formación de la banda.
    */
-  std::string getFormacion();
+  std::string getFormacion() const;
 
   /**
    * @brief Regresa la fecha de separación de la banda.
    * @return La fecha de separación de la banda.
    */
-  std::string getSeparacion();
+  std::string getSeparacion() const;
   
 };
 

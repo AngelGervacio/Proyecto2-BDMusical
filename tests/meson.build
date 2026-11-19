@@ -18,32 +18,21 @@ test_metadatos = executable(
     cpp_args: [test_dir]
 )
 
-test_basedatosDAO = executable(
-    'TestBaseDatosDAO',
-    'bd/TestBaseDatosDAO.cpp',
-    '../src/bd/BaseDatosDAO.cpp',
-    '../src/bd/AdministraBD.cpp',
-    '../src/bd/Metadatos.cpp',
-    '../src/bd/Album.cpp',
-    '../src/bd/Artista.cpp',
-    '../src/bd/Banda.cpp',
-    '../src/bd/Persona.cpp',
-    dependencies: [gtest, sqlite],
-    include_directories: include_dir,
-    cpp_args: [test_dir]
-)
-
 test_minero = executable(
     'TestMinero',
     'minero/TestMinero.cpp',
     '../src/minero/Minero.cpp',
-    '../src/bd/BaseDatosDAO.cpp',
     '../src/bd/AdministraBD.cpp',
     '../src/bd/Metadatos.cpp',
     '../src/bd/Album.cpp',
     '../src/bd/Artista.cpp',
     '../src/bd/Banda.cpp',
     '../src/bd/Persona.cpp',
+    '../src/bd/dao/AlbumsDAO.cpp',
+    '../src/bd/dao/ArtistasDAO.cpp',
+    '../src/bd/dao/CancionesDAO.cpp',
+    '../src/bd/dao/BandasDAO.cpp',
+    '../src/bd/dao/PersonasDAO.cpp',
     dependencies: [gtest, sqlite, utfcpp, taglib],
     include_directories: include_dir,
     cpp_args: [test_dir]
@@ -51,5 +40,4 @@ test_minero = executable(
 
 test('Pruebas AdministraBD', test_administraBD)
 test('Pruebas Metadatos', test_metadatos)
-test('Pruebas BaseDatosDAO', test_basedatosDAO)
 test('Pruebas Minero', test_minero)

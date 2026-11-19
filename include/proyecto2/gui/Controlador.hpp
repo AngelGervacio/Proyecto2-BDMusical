@@ -19,10 +19,16 @@
 #include <QVariantMap>
 #include <QtConcurrent/QtConcurrentRun>
 #include "proyecto2/bd/Metadatos.hpp"
+#include "proyecto2/bd/Artista.hpp"
 #include "proyecto2/bd/Album.hpp"
 #include "proyecto2/bd/Banda.hpp"
-#include "proyecto2/bd/BaseDatosDAO.hpp"
+#include "proyecto2/bd/Persona.hpp"
 #include "proyecto2/minero/Minero.hpp"
+#include "proyecto2/bd/dao/CancionesDAO.hpp"
+#include "proyecto2/bd/dao/ArtistasDAO.hpp"
+#include "proyecto2/bd/dao/AlbumsDAO.hpp"
+#include "proyecto2/bd/dao/BandasDAO.hpp"
+#include "proyecto2/bd/dao/PersonasDAO.hpp"
 #include "proyecto2/gui/CancionesModelo.hpp"
 
 /**
@@ -37,7 +43,11 @@ class Controlador : public QObject{
    */
   Q_PROPERTY(bool minando READ minando NOTIFY cambioMinando)
 private:
-  BaseDatosDAO& dao; ///< Instancia de la clase BaseDatosDAO.
+  CancionesDAO& canciones; ///< Administra las canciones de la base de datos.
+  ArtistasDAO& artistas; ///< Administra los artistas de la base de datos.
+  AlbumsDAO& albums; ///< Administra los albums de la base de datos.
+  BandasDAO& bandas; ///< Administra las bandas de la base de datos.
+  PersonasDAO& personas; ///< Administra las personas de la base de datos.
   CancionesModelo& modelo; ///< El modelo de la tabla.
   bool estaMinando = false; ///< Indica si se estan minando directorios.
   QFuture<void> futuroMinado; ///< Administra el estado de el minado.
@@ -72,7 +82,8 @@ public:
    * @param modelo El modelo de la tabla.
    * @param parent Objeto padre.
    */
-  Controlador(BaseDatosDAO& dao, CancionesModelo& modelo, QObject* parent = nullptr);
+  Controlador(CancionesDAO& canciones, ArtistasDAO& artistas, AlbumsDAO& albums, BandasDAO& bandas,
+	      PersonasDAO& personas, CancionesModelo& modelo, QObject* parent = nullptr);
 
   /**
    * @brief Carga las canciones en el modelo.
@@ -146,7 +157,7 @@ public:
    * @brief Elimina un album de la base de datos.
    * @param id El id de el album a eliminar.
    */
-  Q_INVOKABLE void eliminarAlbum(int id);
+  Q_INVOKABLE void eliminarAlbum(int idAlbum);
 
   /**
    * @brief Regresa la información de una canción.

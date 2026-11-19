@@ -16,7 +16,9 @@
 #include <fstream>
 #include <string>
 #include "proyecto2/bd/Metadatos.hpp"
-#include "proyecto2/bd/BaseDatosDAO.hpp"
+#include "proyecto2/bd/dao/CancionesDAO.hpp"
+#include "proyecto2/bd/dao/ArtistasDAO.hpp"
+#include "proyecto2/bd/dao/AlbumsDAO.hpp"
 
 /**
  * @class Minero
@@ -25,7 +27,9 @@
  */
 class Minero{
 private:
-  BaseDatosDAO& dao; ///< Administra Base de Datos.
+  CancionesDAO& canciones; ///< Administra las canciones de la base de datos.
+  ArtistasDAO& artistas; ///< Administra los artistas de la base de datos.
+  AlbumsDAO& albums; ///< Administra los albums de la base de datos.
   
   /**
    * @brief Recorre recursivamente un directorio.
@@ -61,7 +65,7 @@ public:
    * @brief Constructor de la clase.
    * @param dao DAO de la base de datos.
    */
-  Minero(BaseDatosDAO& dao);
+  Minero(CancionesDAO& canciones, ArtistasDAO& artistas, AlbumsDAO& albums);
   
   /**
    * @brief Mina los archivos MP3 de un directorio y

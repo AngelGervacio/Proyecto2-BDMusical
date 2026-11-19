@@ -5,15 +5,17 @@
 
 #include "proyecto2/gui/Controlador.hpp"
 
-Controlador::Controlador(BaseDatosDAO& dao, CancionesModelo& modelo, QObject* parent)
-  : QObject(parent), dao(dao), modelo(modelo){}
+Controlador::Controlador(CancionesDAO& canciones, ArtistasDAO& artistas, AlbumsDAO& albums, BandasDAO& bandas,
+			 PersonasDAO& personas, CancionesModelo& modelo, QObject* parent)
+  : QObject(parent), canciones(canciones), artistas(artistas), albums(albums), bandas(bandas), personas(personas),
+    modelo(modelo){}
 
 void Controlador::cargarCanciones(){
-  const std::vector<Metadatos> canciones = dao.obtenerCanciones();
+  const std::vector<Metadatos> datos = canciones.obtenerCanciones();
 
   QVector<Metadatos> cancionesQt;
 
-  for(const Metadatos& metadatos : canciones)
+  for(const Metadatos& metadatos : datos)
     cancionesQt.append(metadatos);
 
   modelo.cargarCanciones(cancionesQt);
@@ -24,7 +26,7 @@ bool Controlador::minando(){
 }
 
 QString Controlador::obtenerRuta(int id) const{
-  std::string ruta = dao.obtenerRuta(id);
+  std::string ruta = canciones.obtenerRuta(id);
   return QString::fromUtf8(ruta.data(), ruta.size());
 }
 
@@ -37,8 +39,10 @@ void Controlador::minarDirectorio(QString directorio){
   futuroMinado = QtConcurrent::run([this, directorio](){
     AdministraBD bd;
     bd.abrir();
-    BaseDatosDAO daoMinero(bd);
-    Minero minero(daoMinero);
+    CancionesDAO cancionesMinero(bd);
+    ArtistasDAO artistasMinero(bd);
+    AlbumsDAO albumsMinero(bd);
+    Minero minero(cancionesMinero, artistasMinero, albumsMinero);
 
     minero.minar(std::filesystem::path(directorio.toStdString()));
 
@@ -135,7 +139,9 @@ void Controlador::agregarPersona(const QUrl& imagen, const QString& artistico, c
   if(nombreArtistico.empty())
     return;
 
-  int id = dao.insertarPersona(nombreArtistico, nombreReal, fechaNacimiento, fechaFallecimiento);
+  Persona persona(-1, nombreArtistico, nombreReal, fechaNacimiento, fechaFallecimiento);
+
+  int id = personas.insertarPersona(persona);
 
   if(id == -1){
     emit personaYaInsertada();
@@ -152,7 +158,12 @@ QVariantMap Controlador::obtenerDatosAlbum(int id){
   if(id < 1)
     return {};
 
-  Album album = dao.obtenerDatosAlbum(id);
+  int idAlbum = albums.obtenerIdAlbum(id);
+
+  if(idAlbum < 1)
+    idAlbum = 0;
+  
+  Album album = albums.obtenerDatosAlbum(idAlbum);
 
   QVariantMap datos;
 
@@ -166,15 +177,19 @@ QVariantMap Controlador::obtenerDatosAlbum(int id){
 }
 
 int Controlador::obtenerIdAlbum(int id){
-  return dao.obtenerIdAlbum(id);
+  if(id < 1)
+    return {};
+  
+  return albums.obtenerIdAlbum(id);
 }
 
 void Controlador::agregarAlbum(const QString& ruta, const QString nombre, int anio, int idCancion, const QUrl& imagen){
   try{
-    int idAlbum = dao.insertarAlbum(ruta.toStdString(), nombre.toStdString(), anio);
+    Album album(-1, ruta.toStdString(), nombre.toStdString(), anio);
+    int idAlbum = albums.insertarAlbum(album);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, idAlbum, "Album");
-    dao.actualizarAlbumEnCancion(idCancion, idAlbum);
+    canciones.actualizarAlbumEnCancion(idCancion, idAlbum);
     cargarCanciones();
     void albumActualizado();
   }catch(const std::exception& e){
@@ -184,7 +199,8 @@ void Controlador::agregarAlbum(const QString& ruta, const QString nombre, int an
 
 void Controlador::actualizarAlbum(const QString& ruta, const QString nombre, int anio, int idAlbum, const QUrl& imagen){
   try{
-    dao.actualizarAlbum(ruta.toStdString(), nombre.toStdString(), anio, idAlbum);
+    Album album(idAlbum, ruta.toStdString(), nombre.toStdString(), anio);
+    albums.actualizarAlbum(album);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, idAlbum, "Album");
     cargarCanciones();
@@ -194,14 +210,18 @@ void Controlador::actualizarAlbum(const QString& ruta, const QString nombre, int
   }
 }
 
-void Controlador::eliminarAlbum(int id){
-  if(id < 1){
+void Controlador::eliminarAlbum(int idAlbum){
+  if(idAlbum < 1){
     emit ocurrioError(QString::fromUtf8("No hay album por eliminar."));
     return;
   }
   
   try{
-    dao.eliminarAlbum(id);
+    std::vector<int> idsCanciones = canciones.cancionesDeAlbum(idAlbum);
+    for(const auto& id : idsCanciones){
+      canciones.actualizarAlbumEnCancion(id, 0);
+    }
+    albums.eliminarAlbum(idAlbum);
     cargarCanciones();
     albumActualizado();
   }catch(const std::exception& e){
@@ -213,11 +233,11 @@ QVariantMap Controlador::obtenerDatosCancion(int id){
   if(id < 1)
     return {};
 
-  Metadatos metadatos = dao.obtenerDatosCancion(id);
+  Metadatos metadatos = canciones.obtenerDatosCancion(id);
 
   int idArtista = -1;
   if(!metadatos.getArtista().empty())
-    idArtista = dao.obtenerArtista(metadatos.getArtista());
+    idArtista = artistas.obtenerArtista(metadatos.getArtista());
 
   QVariantMap datos;
 
@@ -242,7 +262,7 @@ void Controlador::eliminarCancion(int id){
   }
   
   try{
-    dao.eliminarCancion(id);
+    canciones.eliminarCancion(id);
     cargarCanciones();
     cancionActualizada();
   }catch(const std::exception& e){
@@ -253,8 +273,17 @@ void Controlador::eliminarCancion(int id){
 void Controlador::actualizarCancion(int id, const QString& ruta, const QString& titulo, const QString& artista,
 				    int idAlbum, int pista, int anio, const QString& genero, const QUrl& imagen){
   try{
-    dao.actualizarCancion(id, ruta.toStdString(), titulo.toStdString(), artista.toStdString(),
-			  idAlbum, pista, anio, genero.toStdString());
+    int idArtista = artistas.insertarArtista(artista.toStdString());
+    Metadatos metadatos = Metadatos::Builder()
+      .setId(id)
+      .setRuta(std::filesystem::path(ruta.toStdString()))
+      .setTitulo(titulo.toStdString())
+      .setArtista(artista.toStdString())
+      .setPista(pista)
+      .setAnio(anio)
+      .setGenero(genero.toStdString())
+      .build();
+    canciones.actualizarCancion(metadatos, idArtista, idAlbum);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, id, "Portada");
     cargarCanciones();
@@ -265,18 +294,18 @@ void Controlador::actualizarCancion(int id, const QString& ruta, const QString& 
 }
 
 QVariantList Controlador::obtenerAlbums(){
-  QVariantList albums;
+  QVariantList listaQt;
 
-  std::vector<Album> lista = dao.obtenerAlbums();
+  std::vector<Album> lista = albums.obtenerAlbums();
 
   for(const Album& album : lista){
-    albums.append(QVariantMap{
+    listaQt.append(QVariantMap{
 	{"id", album.getId()},
 	{"nombre", QString::fromStdString(album.getNombre())}
       });
   }
 
-  return albums;
+  return listaQt;
 }
 
 QVariantMap Controlador::obtenerDatosArtista(int id){
@@ -284,7 +313,7 @@ QVariantMap Controlador::obtenerDatosArtista(int id){
     return {};
   }
   
-  Artista artista = dao.obtenerDatosArtista(id);
+  Artista artista = artistas.obtenerDatosArtista(id);
   
   QVariantMap datos;
 
@@ -308,7 +337,8 @@ void Controlador::actualizarArtista(int idArtista, int tipo, const QString& nomb
   }
   
   try{
-    dao.actualizarArtista(idArtista, tipo, nombre.toStdString());
+    Artista artista(idArtista, tipo, nombre.toStdString());
+    artistas.actualizarArtista(artista);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, idArtista, "Artista");
     cargarCanciones();
@@ -335,11 +365,12 @@ void Controlador::agregarArtista(int tipo, const QString& nombre, const QUrl& im
   }
 
   try{
-    int idArtista = dao.insertarArtista(nombre.toStdString());
-    dao.actualizarArtista(idArtista, tipo, nombre.toStdString());
+    int idArtista = artistas.insertarArtista(nombre.toStdString());
+    Artista artista(idArtista, tipo, nombre.toStdString());
+    artistas.actualizarArtista(artista);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, idArtista, "Artista");
-    dao.actualizarArtistaEnCancion(idCancion, idArtista);
+    canciones.actualizarArtistaEnCancion(idCancion, idArtista);
     cargarCanciones();
     emit artistaActualizado();
   }catch(const std::exception& e){
@@ -354,7 +385,11 @@ void Controlador::eliminarArtista(int idArtista){
   }
 
   try{
-    dao.eliminarArtista(idArtista);
+    std::vector<int> idsCanciones = canciones.cancionesDeArtista(idArtista);
+    for(const auto& id : idsCanciones){
+      canciones.actualizarArtistaEnCancion(id, 0);
+    }
+    artistas.eliminarArtista(idArtista);
     cargarCanciones();
     emit artistaActualizado();
   }catch(const std::exception& e){
@@ -373,7 +408,7 @@ QVariantMap Controlador::obtenerDatosBanda(int idArtista, const QString& nombre)
     return datos;
   }
   
-  Banda banda = dao.obtenerDatosBanda(nombre.toStdString());
+  Banda banda = bandas.obtenerDatosBanda(nombre.toStdString());
 
   datos["id"] = banda.getId();
   datos["nombre"] = QString::fromUtf8(banda.getNombre().data(), banda.getNombre().size());
@@ -409,10 +444,11 @@ void Controlador::actualizarBanda(int idBanda, const QString& nombre, const QStr
   }
   
   try{
-    dao.actualizarBanda(idBanda, nombre.toStdString(), formacion.toStdString(), separacion.toStdString());
-    dao.actualizarMiembros(idBanda, ids);
+    Banda banda(idBanda, nombre.toStdString(), formacion.toStdString(), separacion.toStdString());
+    bandas.actualizarBanda(banda);
+    bandas.actualizarMiembros(idBanda, ids);
     for(const auto& id : idsEliminar){
-      dao.eliminarPersona(id);
+      personas.eliminarPersona(id);
     }
   }catch(const std::exception& e){
     emit ocurrioError(QString::fromUtf8(e.what()));
@@ -439,10 +475,11 @@ void Controlador::agregarBanda(const QString& nombre, const QString& formacion,
   }
 
   try{
-    int id = dao.insertarBanda(nombre.toStdString(), formacion.toStdString(), separacion.toStdString());
-    dao.actualizarMiembros(id, ids);
+    Banda banda(-1, nombre.toStdString(), formacion.toStdString(), separacion.toStdString());
+    int id = bandas.insertarBanda(banda);
+    bandas.actualizarMiembros(id, ids);
     for(const auto& id : idsEliminar){
-      dao.eliminarPersona(id);
+      personas.eliminarPersona(id);
     }
   }catch(const std::exception& e){
     emit ocurrioError(QString::fromUtf8(e.what()));
@@ -456,7 +493,7 @@ void Controlador::eliminarBanda(int id){
   }
 
   try{
-    dao.eliminarBanda(id);
+    bandas.eliminarBanda(id);
   }catch(const std::exception& e){
     emit ocurrioError(QString::fromUtf8(e.what()));
   }
@@ -468,7 +505,7 @@ QVariantList Controlador::personasEnBanda(int idBanda){
     return {};
   }
 
-  std::vector<Persona> enBanda = dao.personasEnBanda(idBanda);
+  std::vector<Persona> enBanda = bandas.personasEnBanda(idBanda);
   QVariantList lista;
 
   for(const auto& persona : enBanda){
@@ -486,11 +523,11 @@ QVariantList Controlador::personasEnBanda(int idBanda){
 }
 
 QVariantList Controlador::obtenerPersonas(){
-  std::vector<Persona> personas = dao.obtenerPersonas();
+  std::vector<Persona> vector = personas.obtenerPersonas();
 
   QVariantList lista;
 
-  for(const auto& persona : personas){
+  for(const auto& persona : vector){
     lista.append(QVariantMap{
 	{"id", persona.getId()},
 	{"artistico", QString::fromUtf8(persona.getArtistico())},
@@ -509,7 +546,7 @@ QVariantList Controlador::personasDisponibles(int idBanda){
     return {};
   }
 
-  std::vector<Persona> disponibles = dao.personasDisponibles(idBanda);
+  std::vector<Persona> disponibles = bandas.personasDisponibles(idBanda);
   QVariantList lista;
 
   for(const auto& persona : disponibles){
@@ -539,7 +576,8 @@ void Controlador::actualizarPersona(int id, const QString& artistico, const QStr
   }
   
   try{
-    dao.actualizarPersona(id, artistico.toStdString(), real.toStdString(), nacimiento.toStdString(), fallecimiento.toStdString());
+    Persona persona(id, artistico.toStdString(), real.toStdString(), nacimiento.toStdString(), fallecimiento.toStdString());
+    personas.actualizarPersona(persona);
     if(!imagen.isEmpty())
       agregarImagenEnCache(imagen, id, "Persona");
     emit personaActualizada();

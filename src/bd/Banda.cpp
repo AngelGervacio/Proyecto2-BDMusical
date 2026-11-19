@@ -12,18 +12,18 @@ Banda::Banda(int id, const std::string& nombre, const std::string& formacion, co
   this->separacion = separacion;
 }
 
-int Banda::getId(){
+int Banda::getId() const{
   return id;
 }
 
-std::string Banda::getNombre(){
+std::string Banda::getNombre() const{
   return nombre;
 }
 
-std::string Banda::getFormacion(){
+std::string Banda::getFormacion() const{
   return formacion;
 }
 
-std::string Banda::getSeparacion(){
+std::string Banda::getSeparacion() const{
   return separacion;
 }

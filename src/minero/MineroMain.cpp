@@ -103,8 +103,10 @@ int main(int argc, char* argv[]){
 
     admin->abrir();
 
-    BaseDatosDAO dao(*admin);
-    Minero minero(dao);
+    CancionesDAO canciones(*admin);
+    ArtistasDAO artistas(*admin);
+    AlbumsDAO albums(*admin);
+    Minero minero(canciones, artistas, albums);
 
     minero.minar(std::filesystem::path(rutaDirectorio));
     

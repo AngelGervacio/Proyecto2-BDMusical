@@ -2,7 +2,11 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "proyecto2/bd/AdministraBD.hpp"
-#include "proyecto2/bd/BaseDatosDAO.hpp"
+#include "proyecto2/bd/dao/CancionesDAO.hpp"
+#include "proyecto2/bd/dao/ArtistasDAO.hpp"
+#include "proyecto2/bd/dao/AlbumsDAO.hpp"
+#include "proyecto2/bd/dao/BandasDAO.hpp"
+#include "proyecto2/bd/dao/PersonasDAO.hpp"
 #include "proyecto2/gui/CancionesModelo.hpp"
 #include "proyecto2/gui/Controlador.hpp"
 #include "proyecto2/gui/Reproductor.hpp"
@@ -15,9 +19,13 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     AdministraBD admin;
-    BaseDatosDAO dao(admin);
+    CancionesDAO canciones(admin);
+    ArtistasDAO artistas(admin);
+    AlbumsDAO albums(admin);
+    BandasDAO bandas(admin);
+    PersonasDAO personas(admin);
     CancionesModelo modelo;
-    Controlador controlador(dao, modelo);
+    Controlador controlador(canciones, artistas, albums, bandas, personas, modelo);
     Reproductor reproductor;
 
     admin.abrir();
