@@ -78,7 +78,11 @@ public:
 
   /**
    * @brief Constructor de la clase.
-   * @param dao Instancia de la clase BaseDatosDAO
+   * @param canciones Administra las canciones de la base de datos.
+   * @param artistas Administra los artistas de la base de datos.
+   * @param albums Administra los albums de la base de datos.
+   * @param bandas Administra las bandas de la base de datos.
+   * @param personas Administra las personas de la base de datos.
    * @param modelo El modelo de la tabla.
    * @param parent Objeto padre.
    */
@@ -155,7 +159,7 @@ public:
 
   /**
    * @brief Elimina un album de la base de datos.
-   * @param id El id de el album a eliminar.
+   * @param idAlbum El id de el album a eliminar.
    */
   Q_INVOKABLE void eliminarAlbum(int idAlbum);
 

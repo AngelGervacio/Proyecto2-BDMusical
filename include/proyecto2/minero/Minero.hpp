@@ -63,7 +63,9 @@ private:
 public:
   /**
    * @brief Constructor de la clase.
-   * @param dao DAO de la base de datos.
+   * @param canciones Administra las canciones de la base de datos.
+   * @param artistas Administra los artistas de la base de datos.
+   * @param albums Administra los albums de la base de datos.
    */
   Minero(CancionesDAO& canciones, ArtistasDAO& artistas, AlbumsDAO& albums);
   
