@@ -5,7 +5,7 @@
 
 #include "proyecto2/compilador/Token.hpp"
 
-Token::Token(TipoToken tipo, std::string valor){
+Token::Token(TipoToken tipo, const std::string& valor){
   this->tipo = tipo;
   this->valor = valor;
 }

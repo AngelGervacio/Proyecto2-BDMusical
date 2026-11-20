@@ -10,6 +10,7 @@
  * @brief Enumeración cons los tipos de token.
  */
 enum class TipoToken{
+  NOVALIDO,
   ARTISTA,
   ALBUM,
   RUTA,
@@ -24,8 +25,8 @@ enum class TipoToken{
   DIFERENTE,
   MENOR,
   MAYOR,
-  MENOR_IGUAL,
-  MAYOR_IGUAL,
+  MENORIGUAL,
+  MAYORIGUAL,
   AND,
   OR
 }

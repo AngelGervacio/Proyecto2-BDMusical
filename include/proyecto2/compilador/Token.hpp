@@ -23,7 +23,7 @@ public:
    * @param tipo El tipo de token.
    * @param valor El valor del token.
    */
-  Token(TipoToken tipo, std::string valor);
+  Token(TipoToken tipo, const std::string& valor);
 
   /**
    * @brief Regresa el tipo de token.
