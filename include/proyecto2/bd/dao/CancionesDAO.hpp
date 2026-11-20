@@ -108,6 +108,14 @@ public:
    * @return Las ids de las canciones de el album.
    */
   std::vector<int> cancionesDeAlbum(int idAlbum);
+
+  /**
+   * @brief Realiza una consulta y regresa las canciones obtenidas.
+   * @param consulta La consulta a realizar.
+   * @param parametros Los parametros de la consulta.
+   * @return Los datos de las canciones obtenidas.
+   */
+  std::vector<Metadatos> realizarConsulta(const std::string& consulta, const std::vector<std::string>& parametros);
 };
 
 #endif

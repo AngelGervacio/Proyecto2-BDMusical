@@ -53,34 +53,26 @@ void Lexer::analizarBusqueda(){
 
 bool Lexer::esOperadorDoble(){
   if(posicion + 1 < busqueda.length()){
-    std::string operador = busqueda.toStdString().substr(posicion, 2);
+    QString operador = busqueda.mid(posicion, 2);
     TipoToken tipo;
-    switch(operador){
-    case "!=":
+    
+    if(operador == "!=")
       tipo = TipoToken::DIFERENTE;
-      break;
-    case "~=":
+    else if(operador == "~=")
       tipo = TipoToken::CONTIENE;
-      break;
-    case ">=":
+    else if(operador == ">=")
       tipo = TipoToken::MAYORIGUAL;
-      break;
-    case "<=":
+    else if(operador == "<=")
       tipo = TipoToken::MENORIGUAL;
-      break;
-    case "&&":
+    else if(operador == "&&")
       tipo = TipoToken::AND;
-      break;
-    case "||":
+    else if(operador == "||")
       tipo = TipoToken::OR;
-      break;
-    default:
+    else
       tipo = TipoToken::NOVALIDO;
-      break;
-    }
 
     if(tipo != TipoToken::NOVALIDO){
-      tokens.push_back(Token(tipo, operador));
+      tokens.push_back(Token(tipo, operador.toStdString()));
       posicion += 2;
       return true;
     }
@@ -91,61 +83,53 @@ bool Lexer::esOperadorDoble(){
 
 bool Lexer::esOperadorSimple(){
   if(posicion < busqueda.length()){
-    char operador = busqueda.toStdString()[posicion];
+    QChar operador = busqueda[posicion];
     TipoToken tipo;
-    switch(operador){
-    case '=':
+
+    if(operador == '=')
       tipo = TipoToken::IGUAL;
-      break;
-    case '>':
+    else if(operador == '>')
       tipo = TipoToken::MAYOR;
-      break;
-    case '<':
+    else if(operador == '<')
       tipo = TipoToken::MENOR;
-      break;
-    default:
+    else
       tipo = TipoToken::NOVALIDO;
-      break;
-    }
 
     if(tipo != TipoToken::NOVALIDO){
-      tokens.push_back(Token(tipo, std::string(1, operador)));
+      tokens.push_back(Token(tipo, std::string(1, static_cast<char>(operador.unicode()))));
       posicion++;
       return true;
     }
   }
-
+ 
   return false;
 }
 
 Token Lexer::leerCadena(){
   posicion++;
   int inicio = posicion;
-  std::string texto = busqueda.toStdString();
-    
-  while(posicion < texto.length() && texto[posicion] != '"')
+
+  while(posicion < busqueda.length() && busqueda[posicion] != QChar('"'))
     posicion++;
 
-  std::string valor;
-  if(posicion >= texto.length())
+  if(posicion >= busqueda.length())
     throw std::invalid_argument("La busqueda ingresada no es valida, falta una comilla de cierre.");
 
-  valor = texto.substr(inicio, posicion - inicio);
+  QString texto = busqueda.mid(inicio, posicion - inicio);
   posicion++;
 
-  return Token(TipoToken::CADENA, valor);
+  return Token(TipoToken::CADENA, texto.toStdString());
 }
 
 Token Lexer::leerNumero(){
   int inicio = posicion;
-  std::string texto = busqueda.toStdString();
 
-  while(posicion < texto.length() && busqueda[posicion].isDigit())
+  while(posicion < busqueda.length() && busqueda[posicion].isDigit())
     posicion++;
 
-  std::string valor = texto.substr(inicio, posicion - inicio);
+  QString texto = busqueda.mid(inicio, posicion - inicio);
 
-  return Token(TipoToken::NUMERO, valor);
+  return Token(TipoToken::NUMERO, texto.toStdString());
 }
 
 Token Lexer::leerCampo(){
@@ -154,37 +138,26 @@ Token Lexer::leerCampo(){
   while(posicion < busqueda.length() && busqueda[posicion].isLetter())
     posicion++;
 
-  std::string valor = busqueda.toStdString().substr(inicio, posicion - inicio);
+  QString texto = busqueda.mid(inicio, posicion - inicio);
+  std::string valor = texto.toStdString();
 
   TipoToken tipo;
 
-  switch(valor){
-  case "ARTISTA":
+  if(valor == "ARTISTA")
     tipo = TipoToken::ARTISTA;
-    break;
-  case "ALBUM":
+  else if(valor == "ALBUM")
     tipo = TipoToken::ALBUM;
-    break;
-  case "RUTA":
+  else if(valor == "RUTA")
     tipo = TipoToken::RUTA;
-    break;
-  case "TITULO":
+  else if(valor == "TITULO")
     tipo = TipoToken::TITULO;
-    break;
-  case "PISTA":
+  else if(valor == "PISTA")
     tipo = TipoToken::PISTA;
-    break;
-  case "AÑO":
+  else if(valor == "AÑO")
     tipo = TipoToken::ANIO;
-    break;
-  case "GENERO":
+  else if(valor == "GENERO")
     tipo = TipoToken::GENERO;
-    break;
-  default:
-    tipo = TipoToken::NOVALIDO
-  }
-
-  if(tipo == TipoToken::NOVALIDO)
+  else
     throw std::invalid_argument("La busqueda ingresada no es valida, hay un campo no valido.");
 
   return Token(tipo, valor);

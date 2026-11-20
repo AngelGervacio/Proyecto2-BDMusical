@@ -362,8 +362,8 @@ ApplicationWindow {
     }
 
     Dialog{
-        id: errorAlActualizar
-        title: "Error al actualizar."
+        id: errorDialogo
+        title: "Error."
         anchors.centerIn: parent
         width: 500
         modal: true
@@ -375,7 +375,7 @@ ApplicationWindow {
             text: ""
         }
 
-        onAccepted: errorAlActualizar.close()
+        onAccepted: errorDialogo.close()
     }
 
     Dialog{
@@ -400,8 +400,8 @@ ApplicationWindow {
         }
 
         function onOcurrioError(error){
-            errorAlActualizar.label.text = error
-            errorAlActualizar.open()
+            errorDialogo.label.text = error
+            errorDialogo.open()
         }
 
         function onCancionActualizada(){

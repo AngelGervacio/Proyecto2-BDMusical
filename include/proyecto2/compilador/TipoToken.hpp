@@ -29,4 +29,6 @@ enum class TipoToken{
   MAYORIGUAL,
   AND,
   OR
-}
+};
+
+#endif

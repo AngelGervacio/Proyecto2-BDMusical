@@ -43,19 +43,19 @@ void ValidadorSemantico::validarCondicion(const Vertice& vertice){
     throw std::invalid_argument("La busqueda realizada no es valida: Valor no valido.");
 }
 
-bool ValidadorSemantico::esCampoTexto(const Token& campo) const{
+bool ValidadorSemantico::esCampoTexto(const Token& campo){
   TipoToken tipo = campo.getTipo();
 
   return tipo == TipoToken::ARTISTA || tipo == TipoToken::ALBUM || tipo == TipoToken::RUTA || tipo == TipoToken::TITULO || tipo == TipoToken::GENERO;
 }
 
-bool ValidadorSemantico::esCampoNumerico(const Token& campo) const{
+bool ValidadorSemantico::esCampoNumerico(const Token& campo){
   TipoToken tipo = campo.getTipo();
     
   return tipo == TipoToken::PISTA || tipo == TipoToken::ANIO;
 }
 
-bool ValidadorSemantico::operadorValido(const Token& campo, const Token& operador) const{
+bool ValidadorSemantico::operadorValido(const Token& campo, const Token& operador){
   TipoToken tipo = operador.getTipo();
   
   if(esCampoTexto(campo))

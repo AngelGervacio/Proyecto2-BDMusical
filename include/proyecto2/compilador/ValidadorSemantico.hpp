@@ -32,14 +32,14 @@ private:
    * @param campo El campo a verificar.
    * @return Si un campo es de tipo texto.
    */
-  static bool esCampoTexto(const Token& campo) const;
+  static bool esCampoTexto(const Token& campo);
 
   /**
    * @brief Regresa si un campo es de tipo numerico.
    * @param campo El campo a verificar.
    * @return Si un campo es de tipo numerico.
    */
-  static bool esCampoNumerico(const Token& campo) const;
+  static bool esCampoNumerico(const Token& campo);
 
   /**
    * @brief Verifica que se tenga un operador valido.
@@ -47,7 +47,7 @@ private:
    * @param operador El operador de la condición.
    * @return true si es un operador valido, false en otro caso.
    */
-  static bool operadorValido(const Token& campo, const Token& operador) const;
+  static bool operadorValido(const Token& campo, const Token& operador);
 public:
   /**
    * @brief Verifica que una expresión sea valida.

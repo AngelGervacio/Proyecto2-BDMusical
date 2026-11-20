@@ -10,14 +10,21 @@ src_archivos = files(
     'bd/dao/ArtistasDAO.cpp',
     'bd/dao/CancionesDAO.cpp',
     'bd/dao/BandasDAO.cpp',
-    'bd/dao/PersonasDAO.cpp'
+    'bd/dao/PersonasDAO.cpp',
+    'compilador/Token.cpp',
+    'compilador/Lexer.cpp',
+    'compilador/Vertice.cpp',
+    'compilador/Parser.cpp',
+    'compilador/ValidadorSemantico.cpp',
+    'compilador/Generador.cpp',
+    'compilador/Compilador.cpp'
 )
 
 executable(
     'Minero',
     'minero/MineroMain.cpp',
     src_archivos,
-    dependencies: [sqlite, utfcpp, taglib],
+    dependencies: [sqlite, utfcpp, taglib, qt6_dep],
     include_directories: include_dir
 )
 

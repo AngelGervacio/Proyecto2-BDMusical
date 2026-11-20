@@ -5,11 +5,10 @@
 
 #include "proyecto2/compilador/Vertice.hpp"
 
-Vertice::Vertice(Token token, std::unique_ptr<Vertice> izquierdo = nullptr, std::unique_ptr<Vertice> derecho = nullptr){
-  this->token = token;
-  this->izquierdo = std::move(izquierdo);
-  this->derecho = std::move(derecho);
-}
+Vertice::Vertice(Token token, std::unique_ptr<Vertice> izquierdo, std::unique_ptr<Vertice> derecho) :
+  token(std::move(token)),
+  izquierdo(std::move(izquierdo)),
+  derecho(std::move(derecho)){}
 
 Token Vertice::getToken() const{
   return token;
@@ -23,14 +22,14 @@ bool Vertice::hayDerecho() const{
   return derecho != nullptr;
 }
 
-Vertice Vertice::getIzquierdo() const{
+const Vertice& Vertice::getIzquierdo() const{
   if(izquierdo == nullptr)
     throw std::logic_error("El vertice no tiene hijo izquierdo.");
 
   return *izquierdo;
 }
 
-Vertice Vertice::getDerecho() const{
+const Vertice& Vertice::getDerecho() const{
   if(derecho == nullptr)
     throw std::logic_error("El vertice no tiene hijo derecho.");
 

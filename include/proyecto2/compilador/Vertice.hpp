@@ -52,13 +52,13 @@ public:
    * @brief Regresa el vertice izquierdo.
    * @return El vertice izquierdo.
    */
-  Vertice getIzquierdo() const;
+  const Vertice& getIzquierdo() const;
 
   /**
    * @brief Regresa el vertice derecho.
    * @return El vertice derecho.
    */
-  Vertice getDerecho() const;
+  const Vertice& getDerecho() const;
 
   /**
    * @brief Asigna el vertice izquierdo.

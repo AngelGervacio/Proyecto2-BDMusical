@@ -6,7 +6,13 @@
 #include "proyecto2/compilador/Compilador.hpp"
 
 Resultado Compilador::compilar(const std::string& busqueda){
-  Lexer lexer(busqueda);
+  Generador generador;
+  if(!busqueda.starts_with("@@"))
+    return generador.generarBusqueda(busqueda);
+
+  std::string expresion = busqueda.substr(2);
+  
+  Lexer lexer(expresion);
   lexer.analizarBusqueda();
   std::list<Token> tokens = lexer.getTokens();
   
@@ -14,7 +20,6 @@ Resultado Compilador::compilar(const std::string& busqueda){
   std::unique_ptr<Vertice> raiz = parser.parsear();
   
   ValidadorSemantico::validar(*raiz);
-    
-  Generador generador;
+  
   return generador.generar(*raiz);
 }

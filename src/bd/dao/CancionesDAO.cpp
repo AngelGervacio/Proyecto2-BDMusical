@@ -676,3 +676,92 @@ std::vector<int> CancionesDAO::cancionesDeAlbum(int idAlbum){
   sqlite3_finalize(stmt);
   return ids;
 }
+
+std::vector<Metadatos> CancionesDAO::realizarConsulta(const std::string& consulta, const std::vector<std::string>& parametros){
+  if(!admin.estaAbierta())
+    throw std::runtime_error("La base de datos no esta abierta.");
+
+  sqlite3* bd = admin.getBaseDeDatos();
+  sqlite3_stmt* stmt = nullptr;
+
+  if(sqlite3_prepare_v2(bd, consulta.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
+    sqlite3_finalize(stmt);
+    throw std::runtime_error(std::string("No se pudo realizar la busqueda: ") + sqlite3_errmsg(bd));
+  }
+
+  for (size_t i = 0; i < parametros.size(); i++){
+    if((sqlite3_bind_text(stmt, static_cast<int>(i+1), parametros[i].c_str(), -1, SQLITE_STATIC)) != SQLITE_OK){
+      sqlite3_finalize(stmt);
+      throw std::runtime_error(std::string("No se pudo realizar la busqueda: ") + sqlite3_errmsg(bd));
+    }
+  }
+
+  std::vector<Metadatos> canciones;
+
+  int resultado;
+
+  while((resultado = sqlite3_step(stmt)) == SQLITE_ROW){
+    std::string titulo;
+    std::string artista;
+    std::string album;
+    std::string genero;
+
+    int id = sqlite3_column_int(stmt, 0);
+    
+    const unsigned char* texto = sqlite3_column_text(stmt, 1);
+    int longitud = sqlite3_column_bytes(stmt, 1);
+
+    if(texto == nullptr)
+      titulo = "";
+    else
+      titulo.assign(reinterpret_cast<const char*>(texto), longitud);
+
+    texto = sqlite3_column_text(stmt, 2);
+    longitud = sqlite3_column_bytes(stmt, 2);
+
+    if(texto == nullptr)
+      artista = "";
+    else
+      artista.assign(reinterpret_cast<const char*>(texto), longitud);
+
+    texto = sqlite3_column_text(stmt, 3);
+    longitud = sqlite3_column_bytes(stmt, 3);
+
+    if(texto == nullptr)
+      album = "";
+    else
+      album.assign(reinterpret_cast<const char*>(texto), longitud);
+
+    int pista = sqlite3_column_int(stmt, 4);
+    
+    int anio = sqlite3_column_int(stmt, 5);
+
+    texto = sqlite3_column_text(stmt, 6);
+    longitud = sqlite3_column_bytes(stmt, 6);
+
+    if(texto == nullptr)
+      genero = "";
+    else
+      genero.assign(reinterpret_cast<const char*>(texto), longitud);
+    
+    Metadatos metadatos = Metadatos::Builder()
+      .setId(id)
+      .setTitulo(titulo)
+      .setArtista(artista)
+      .setAlbum(album)
+      .setPista(pista)
+      .setAnio(anio)
+      .setGenero(genero)
+      .build();
+
+    canciones.push_back(metadatos);
+  }
+
+  if(resultado != SQLITE_DONE){
+    sqlite3_finalize(stmt);
+    throw std::runtime_error(std::string("Error al realizar la busqueda: ") + sqlite3_errmsg(bd));
+  }
+
+  sqlite3_finalize(stmt);
+  return canciones;
+}

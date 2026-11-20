@@ -38,5 +38,12 @@ taglib = dependency(
     fallback: ['taglib', 'taglib_dep']
 )
 
+qt6 = import('qt6')
+
+qt6_dep = dependency(
+    'qt6',
+    modules: ['Core', 'Gui', 'Qml', 'Quick', 'Multimedia', 'Concurrent']
+)
+
 subdir('src')
 subdir('tests')

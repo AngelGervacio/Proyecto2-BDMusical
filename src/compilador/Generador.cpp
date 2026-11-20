@@ -18,6 +18,20 @@ Resultado Generador::generar(const Vertice& raiz){
   return resultado;
 }
 
+Resultado Generador::generarBusqueda(const std::string& busqueda){
+  Resultado resultado;
+  resultado.consulta = "SELECT rolas.id_rola, rolas.title, performers.name, albums.name, rolas.track, rolas.year, rolas.genre "
+    "FROM rolas LEFT JOIN performers ON rolas.id_performer = performers.id_performer "
+    "LEFT JOIN albums ON rolas.id_album = albums.id_album WHERE rolas.title LIKE ? OR performers.name LIKE ? OR "
+    "albums.name LIKE ? OR rolas.path LIKE ? OR rolas.genre LIKE ? ORDER BY rolas.title ASC";
+  
+  for(int i = 0; i < 5; i++){
+    resultado.parametros.push_back("%" + busqueda + "%");
+  }
+  
+  return resultado;
+}
+
 void Generador::generarVertice(const Vertice& vertice, Resultado& resultado){
   Token token = vertice.getToken();
   if(token.getTipo() == TipoToken::AND || token.getTipo() == TipoToken::OR){

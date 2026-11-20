@@ -21,7 +21,7 @@
 class Lexer{
 private:
   QString busqueda; ///< Busqueda a analizar.
-  int posicion; ///< Posicion en la que se encuentra el lexer.
+  qsizetype posicion; ///< Posicion en la que se encuentra el lexer.
   std::list<Token> tokens; ///< Lista de tokens.
 
 public:

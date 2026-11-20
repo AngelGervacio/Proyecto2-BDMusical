@@ -585,3 +585,19 @@ void Controlador::actualizarPersona(int id, const QString& artistico, const QStr
     emit ocurrioError(QString::fromUtf8(e.what()));
   }
 }
+
+void Controlador::realizarBusqueda(const QString& busqueda){
+  Compilador compilador;
+
+  try{
+    Resultado resultado = compilador.compilar(busqueda.toStdString());
+    std::vector<Metadatos> lista = canciones.realizarConsulta(resultado.consulta, resultado.parametros);
+    
+    QVector<Metadatos> listaQt;
+    for(const auto& cancion : lista)
+      listaQt.append(cancion);
+    modelo.cargarCanciones(listaQt);
+  }catch(const std::exception& e){
+    emit ocurrioError(QString::fromUtf8(e.what()));
+  }
+}

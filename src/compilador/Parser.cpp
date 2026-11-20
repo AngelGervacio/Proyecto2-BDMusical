@@ -5,10 +5,7 @@
 
 #include "proyecto2/compilador/Parser.hpp"
 
-Parser::Parser(const std::list<Token>& tokens){
-  this->tokens = tokens;
-  actual = this->tokens.begin();
-}
+Parser::Parser(const std::list<Token>& tokens) : tokens(tokens), actual(this->tokens.begin()){}
 
 std::unique_ptr<Vertice> Parser::parsear(){
   std::unique_ptr<Vertice> raiz = parsearOR();

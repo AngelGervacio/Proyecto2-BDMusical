@@ -59,4 +59,13 @@ public:
    * @return La consulta SQL con parametros.
    */
   Resultado generar(const Vertice& raiz);
+
+  /**
+   * @brief Genera una consulta SQL para realizar una busqueda no avanzada.
+   * @param busqueda La busqueda a realizar.
+   * @return La consulta SQL con parametros.
+   */
+  Resultado generarBusqueda(const std::string& busqueda);
 };
+
+#endif

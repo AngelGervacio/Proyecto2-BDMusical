@@ -30,6 +30,7 @@
 #include "proyecto2/bd/dao/BandasDAO.hpp"
 #include "proyecto2/bd/dao/PersonasDAO.hpp"
 #include "proyecto2/gui/CancionesModelo.hpp"
+#include "proyecto2/compilador/Compilador.hpp"
 
 /**
  * @class Controlador
@@ -92,7 +93,7 @@ public:
   /**
    * @brief Carga las canciones en el modelo.
    */
-  void cargarCanciones();
+  Q_INVOKABLE void cargarCanciones();
 
   /**
    * @brief Regresa el estado del minado.
@@ -296,6 +297,13 @@ public:
    */
   Q_INVOKABLE void actualizarPersona(int id, const QString& artistico, const QString& real, const QString& nacimiento,
 				     const QString& fallecimiento, const QUrl& imagen);
+
+  /**
+   * @brief Realiza una busqueda y regresa la información de las canciones obtenidas.
+   * 
+   *
+   */
+  Q_INVOKABLE void realizarBusqueda(const QString& busqueda);
 
 signals:
   /**

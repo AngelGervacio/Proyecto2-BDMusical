@@ -34,12 +34,20 @@ Rectangle{
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             color: tema.colorTexto
+            font.family: "Noto Sans"
             leftPadding: 15
             rightPadding: 15
 
             background: Rectangle{
                 color: tema.colorSobre
                 radius: 5
+            }
+
+            onAccepted: {
+                if(buscador.text === "")
+                    controlador.cargarCanciones()
+                else
+                    controlador.realizarBusqueda(buscador.text)
             }
         }
 
