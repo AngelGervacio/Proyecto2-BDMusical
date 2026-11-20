@@ -31,6 +31,10 @@ public:
    */
   Lexer(std::string busqueda);
 
+  /**
+   * @brief Regresa la lista de tokens.
+   * @return La lista de tokens.
+   */
   std::list<Token> getTokens() const;
 
   /**

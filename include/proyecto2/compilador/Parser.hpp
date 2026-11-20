@@ -11,6 +11,10 @@
 #include "proyecto2/compilador/Token.hpp"
 #include "proyecto2/compilador/Vertice.hpp"
 
+/**
+ * @class Parser
+ * @brief Clase que genera un arbol de sintaxis abstracta.
+ */
 class Parser{
 private:
   const std::list<Token>& tokens; ///< Lista de tokens.

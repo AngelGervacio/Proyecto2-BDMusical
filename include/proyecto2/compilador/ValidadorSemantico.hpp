@@ -9,6 +9,10 @@
 #include "proyecto2/compilador/Token.hpp"
 #include "proyecto2/compilador/Vertice.hpp"
 
+/**
+ * @class ValidadorSemantico
+ * @brief Clase que valida una busqueda a partir de un arbol.
+ */
 class ValidadorSemantico{
 private:
   /**

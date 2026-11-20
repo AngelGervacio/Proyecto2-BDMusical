@@ -136,7 +136,7 @@ Token Lexer::leerCadena(){
   return Token(TipoToken::CADENA, valor);
 }
 
-Token leerNumero(){
+Token Lexer::leerNumero(){
   int inicio = posicion;
   std::string texto = busqueda.toStdString();
 

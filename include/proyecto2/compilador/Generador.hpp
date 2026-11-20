@@ -11,11 +11,18 @@
 #include "proyecto2/compilador/Token.hpp"
 #include "proyecto2/compilador/Vertice.hpp"
 
+/**
+ * @brief Estructura que contiene una consulta y sus parametros.
+ */
 struct Resultado{
   std::string consulta; ///< Consulta generada.
   std::vector<std::string> parametros; ///< Parametros de la consulta.
 };
 
+/**
+ * @class Generador
+ * @brief Clase que genera la consulta SQL y obtiene sus parametros.
+ */
 class Generador{
 private:
   /**
@@ -23,14 +30,14 @@ private:
    * @param vertice El vertice de donde se generara.
    * @param resultado El resultado actual.
    */
-  static void generarVertice(const Vertice& vertice, Resultado& resultado);
+  void generarVertice(const Vertice& vertice, Resultado& resultado);
 
   /**
    * @brief Genera la consulta SQL a partir de una condición.
    * @param vertice El vertice raiz de la condición.
    * @param resultado El resultado actual.
    */
-  static void generarCondicion(const Vertice& vertice, Resultado& resultado);
+  void generarCondicion(const Vertice& vertice, Resultado& resultado);
 
   /**
    * @brief Regresa el string de un campo.
@@ -51,5 +58,5 @@ public:
    * @param raiz El vertice raiz de la consulta.
    * @return La consulta SQL con parametros.
    */
-  static Resultado generar(const Vertice& raiz);
+  Resultado generar(const Vertice& raiz);
 };
