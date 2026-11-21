@@ -1,0 +1,218 @@
+\documentclass[12pt]{report}
+
+% Información
+\title{Proyecto 2: Base de Datos Musical}
+\author{Angel de Jesus Gervacio Martinez}
+
+% Paquetes
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{caption}
+\usepackage{lscape}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+
+% Estilo de pagina
+\pagestyle{fancy}
+\fancyhead[LO, L]{\textbf{Proyecto 2: Base de Datos Musical}}
+\fancyhead[RO, R]{\textbf{Modelado y Programación}}
+\fancyfoot[LO, L]{\textbf{Facultad De Ciencias, 2027-1}}
+\fancyfoot[CO, C]{\textbf{\thepage}}
+\fancyfoot[RO, R]{\textbf{UNAM}}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\titleformat{\chapter}[block]
+  {\normalfont\Large\bfseries}
+  {\thechapter}
+  {1em}
+  {}
+
+\titlespacing*{\chapter}
+  {0pt}
+  {0pt}
+  {0.5em}
+
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+% Inicio del documento
+\begin{document}
+
+% Portada
+\begin{titlepage}
+  \begin{center}
+    % Inicio
+    \textbf{\large\uppercase{Universidad Nacional Autónoma de México}}\\[0.4cm]
+    \textbf{\large\uppercase{Facultad De Ciencias, 2027-1}}\\[0.4cm]
+    \textbf{\large\uppercase{Modelado y Programación}}\\[0.4cm]
+
+   
+    \begin{figure}[htb]
+      \begin{center}
+        \includegraphics[scale=1]{icono_datos.png}\\
+      \end{center}
+    \end{figure}
+    
+    % Titulo
+    \rule{\linewidth}{1pt}\\[0.4cm]
+    \color{CadetBlue}
+    \large\uppercase{\textbf{Proyecto 2:}}\\[0.2cm]
+    \color{Black}
+    \textbf{\Large\uppercase{Base de Datos Musical}}\\[0.2cm]
+    \rule{\linewidth}{1pt}\\[0.8cm]
+  \end{center}
+\end{titlepage}
+
+\chapter{Resumen}
+En este proyecto se desarrollo una \textbf{base de datos musical} la cual se divide en varios componentes como \textbf{minero}, \textbf{interfaz gráfica} y un \textbf{compilador}.\\
+
+Mediante la \textit{interfaz gráfica} el usuario puede minar los metadatos de archivos MP3, puede editar, eliminar u obtener la información de la base de datos sin tener que escribir SQL directamente, además, poder reproducir los archivos minados.\\
+
+Para la realización de este proyecto se utilizaron herramientas como \textbf{Meson}, \textbf{Qt}, \textbf{Doxygen} y la biblioteca \textbf{SQLite} y fue implementado en el lenguaje \textit{C++}.\\
+
+De manera que se lograra tener una forma en que el usuario pueda acceder a sus archivos MP3, que se encuentran en sus sistema de forma organizada y de facil acceso.\\
+
+\chapter{Introducción}
+El proyecto se realizo para la materia de \textit{Modelado y Programación}, haciendo aplicacion de temas como análisis y diseño, interfaces, patrones de diseño, entre otros.\\
+
+Como principal proposito del proyecto se busca que los estudiantes, hagan uso de patrones de diseño en sus proyectos, empezar a reconocerlos y darse cuenta en que partes vitales de sus proyectos pueden aplicarlos para facilitar el desarrollo de esto, por otro lado, también se busca que aprendan sobre el desarrollo de interfaces gráficas y su interacción con el usuario.\\
+
+Las dificultades que se pueden presentar a lo largo de desarrollo abarcan principalmente en la forma de implementar y ajustar a las necesidades del proyecto los patrones de diseño, además de las repercusiones que dicha implementación puede tener en un desarrollo más avanzado del proyecto, llegando a tener que recurrir a algun otro patron de diseño o tener que hacer un cambio drastico por algun elemento no contemplado.\\
+
+Para facilitar el desarrollo de las ideas que los estudiantes tengas para la realización de sus proyectos puede ser de conveniencia, consultar proyectos similares al que tengan que implementar, de esta forma pueden tener en cuenta aspectos o casos que al principio del análisis y diseño no se habian contemplado.\\
+
+En el caso de la interfaz gráfica, se tiene que aprender las formas en las que se puede implementar, y como su codigo que comunicara con esta, como por ejemplo hacer uso de el patron de diseño \textit{Modelo-Vista-Controlador}.\\
+
+Por otro lado durante la implementación, puede ser necesario utilizar alguna biblioteca que ayude y facilite el desarrollo del proyecto, como la biblioteca \textit{SQLite} que permite realizar consultas a base de datos, y para este proyecto resulta demasiado util, sin embargo, hacer uso de las bibliotecas no es tan facil, pues puede ser necesario tener que cumplir algunos requisitos como tener que instalar otras bibliotecas o que provoquen que tengamos que modificar nuestro proyecto, afectando tanto al análisis como al diseño que ya teniamos planeado.\\
+
+Al finalizar el proyecto, con la experiencia que los estudiantes tuvieron, se espera que a futuro les sea más sencillo su desarrollo o incluso que decidan usar otros recursos y decidir cual es mejor utilizar para cada caso que se les presente en otros proyectos.\\
+
+\chapter{Análisis y diseño}
+\section{Análisis}
+Con la información inicial dada de el proyecto, podemos dividirlo en cuatro partes principales:\\
+
+Necesitamos un \textbf{Minero} el cual dado un directorio debe poder identificar los archivos MP3, analizar los que cuenten con etiquetas \textit{Id3v2.4}, dicho \textit{Minero} tiene que funcionar recursivamente, es decir, poder leer los subdirectorios, además, debe de inferir la información como los albumes de las canciones que tendran como ruta los directorios donde se encuentren los MP3.\\
+
+Otra de las partes principales es la \textbf{Interfaz Gráfica}, esta sera la vista del usuario, mediante la cual podra ver la base de datos, y podra editar la información como el titulo, año o el interprete de una canción, entre otros.\\
+
+Los cambios realizados por el usuario solo se guardan en la base de datos no en los metadatos de los archivos MP3.\\
+
+Tenemos también la \textbf{Base de Datos}, que tiene un esquema definido y la cual con ayuda de el \textit{Minero} poblara la \textit{Base de Datos}.\\
+
+Debido a el esquema, podemos tener \textit{rolas} las cuales cuentan con un número de identificación, asi como el número de identificación de su interprete y de su album, también cuentan con una ruta, titulo, año, número de pista y genero.\\
+
+Tambien tenemos \textit{interpretes} los cuales tienen un número de identificación, su tipo de interprete y su nombre. Tenemos tres tipo de interprete, los cuales son \textit{persona}, \textit{grupo} o \textit{desconocido}.\\
+
+Las \textit{personas} tienen un número de identificación, nombre artistico, nombre real, fecha de nacimiento y fecha de fallecimiento.\\
+
+Para los \textit{grupos}, estos cuentan con un número de identificación, nombre, fecha de formación y fecha de separación, tienen miembros los cuales son \textit{personas}, entonces podemos agregar \textit{personas} que no tengan relación con ninguna \textit{rola} de la base de datos, y podemos asociarlas a los grupos.\\
+
+Por ultimo, tenemos el \textbf{Compilador}, este mediante un pequeño lenguaje permitira realizar busquedas por diversos campos, sin que el usuario tenga que escribir SQL directamente.\\
+
+\section{Diseño}
+Con la información recabada en el análisis, resulta más sencillo realizar el diseño de el proyecto y podemos definir los atributos y comportamientos de quienes participan en la \textit{Base de Datos Musical}.\\
+
+\subsection{Base de Datos}
+Para la esta parte es necesario poder administrar la \textit{Base de Datos}, por lo cual tenemos una clase \textbf{AdministraBD} la cual se encargara de abrir la \textit{Base de Datos} y permitir el acceso a esta.\\
+
+Para poder agregar, editar y consultar datos, haremos uso de el patron de diseño \textit{Data Access Object}, al principio del desarrollo se tenia planeado utilizar una unica clase para la implementación, sin embargo, debido a la cantidad de datos que se manejan es más sencillo tener cinco clases las cuales son: \textbf{CancionesDAO}, \textbf{ArtistasDAO}, \textbf{AlbumsDAO}, \textbf{BandasDAO} y \textbf{PersonasDAO}.\\
+
+Y para hacer más sencillo el acceso a los datos consultados tendremos las clases: \textbf{Metadatos}, \textbf{Artista}, \textbf{Album}, \textbf{Persona} y \textbf{Banda}, de esta forma agrupamos todos los atributos.\\
+
+\subsection{Minero}
+Para el \textit{Minero} tenemos una sola clase, la cual recorre el directorio dado y sus subdirectorios ademas de poder agregar las canciones a la \textit{Base de Datos}.\\
+
+\subsection{Interfaz Gráfica}
+Para la \textit{Interfaz Gráfica} se hara uso de el patron de diseño \textit{Modelo-Vista-Controlador}, por lo cual necesitaremos una clase \textit{Controlador}, la vista podra hacer uso de los metodos de esta clase y el \textit{Controlador} hara uso de las clase de el modelo, el cual seran las clase que hacen uso de el patron de diseño \textit{Data Access Object} para interactuar con la \textit{Base de Datos}.\\
+
+\subsection{Compilador}
+Para el \textit{Compilador}, podemos dividirlo en varias clases las cuales son: \textit{Token}, \textit{Lexer}, \textit{Vertice}, \textit{Parser}, \textit{ValidadorSemantico}, \textit{Generador} y una clase \textit{Compilador} que hara uso de las clases anteriores.\\
+
+Como se menciono en el diseño se hara uso de un pequeño lenguaje para realizar busquedas, este se define de la siguiente forma:\\
+
+\begin{verbatim}
+CONSULTA = "@@" , EXPRESION ;
+
+EXPRESION = TERMINO , { "||" , TERMINO } ;
+
+TERMINO = FACTOR , { "&&" , CONDICION } ;
+
+CONDICION = CONDICION_TEXTO | CONDICION_NUMERICA ;
+
+CONDICION_TEXTO = CAMPO_TEXTO , OPERADOR_TEXTO , TEXTO ;
+
+CONDICION_NUMERICA = CAMPO_NUMERICO , OPERADOR_NUMERICO , NUMERO ;
+
+CAMPO_TEXTO = "ARTISTA" | "ALBUM" | "RUTA" | "TITULO" | "GENERO" ;
+
+CAMPO_NUMERICO = "PISTA" | "AÑO" ;
+
+OPERADOR_TEXTO = "=" | "!=" | "~=";
+
+OPERADOR_NUMERICO = "=" | "!=" | ">=" | ">" | "<=" | "<";
+
+TEXTO = '"' , { CARACTER } , '"';
+
+CARACTER = LETRA | DIGITO | " " | SIMBOLO ;
+
+LETRA = "A"..."Z" | "a"..."z"
+      | "Á" | "É" | "Í" | "Ó" | "Ú" | "Ü" | "Ñ"
+      | "á" | "é" | "í" | "ó" | "ú" | "ü" | "ñ" ;
+
+NUMERO = "0" | DIGITO_NO_CERO , { DIGITO } ;
+
+DIGITO_NO_CERO = "1"..."9" ;
+
+DIGITO  = "0" | DIGITO_NO_CERO ;
+
+SIMBOLO = "_" | "-" | "." | "/" | "\" | ":" | ";" | "," | "!" | "?" | "@"
+	| "#" | "$" | "%" | "&" | "*" | "+" | "~" | "^" | "'" | "(" | ")";
+\end{verbatim}
+
+Podemos tener entonces busquedas como:\\
+        
+@@ARTISTA="Queen"\&\&AÑO=1980\\
+
+Esta busqueda regresara todas las canciones de el grupo \textit{Queen} y que su año sea igual a \textit{1980}.\\
+
+\chapter{Implementación}
+Con las clases ya definidas en el diseño podemos pasar a la implementación.\\
+
+Haremos uso de el sistema de construcción \textit{Meson}, este nos permitira compilar el proyecto, generar los ejecutables y ejecutar pruebas unitar usando también \textit{GoogleTest}.\\
+
+Comenzamos implementando las clases relacionadas con la \textit{Base de Datos}, pues son las que usaremos a menudo durante el desarrollo, para ello hacemos uso de la biblioteca \textit{SQLite} para poder realizar las consultas en la \textit{Base de Datos} de manera sencilla.\\
+
+Una vez implementadas procedemos con el \textit{Minero}, para esta clase haremos uso de la biblioteca \textit{TagLib} y esta a su vez hace uso de la biblioteca \textit{utfcpp}, con esta obtendremos los metadatos de los archivos MP3 y con las clases de la \textit{Base de Datos} agregamos la información a la base de datos.\\
+
+A continuación procedemos a la \textit{Interfaz Gráfica} la cual se desarrollara en con \textit{Qt} y su lenguaje de marcado declarativo \textit{QML}, una vez definidos todos los archivos \textit{QML} y agregar las imagenes para botones y placeholder, podemos proceder a darle funcionalidad a la \textit{Interfaz Gráfica}, por lo cual implementamos el \textit{Controlador}, y con este hacemos que los botones llamen a el metodo que les corresponda en el \textit{Controlador}.\\
+
+Una vez que la \textit{Interfaz Gráfica} pueda funcionar sin errores hara falta pdoer realizar busquedas, por lo cual procedemos a implementar el \textit{Compilador} y sus clases, de esta forma podemos obtener la consulta necesaria para realizar la busqueda en la \textit{Base de Datos}.\\
+
+Implementamos un metodo en el controlador para generar la consulta SQL y ejecutarla con los \textit{DAO}, por ultimo, llamamos dicho metodo en la \textit{Interfaz Gráfica}.\\
+
+\chapter{Conclusiones}
+Este proyecto me llamo demasiado la intención, mayormente la parte de el compilador, pues se me hizo interesante el proceso de definir el lenguaje para realizar las busquedas facilmente, asi como conocer las partes de el compilador.\\
+
+Con el conocimiento obtenido en el proyecto anterior, se me hizo más sencillo poder realizar la implementación de el proyecto además de que ya conocio algunas fuentes que me podrian ayudar.\\
+
+Si pudiera mejor algo de la implementación de mi proyecto serian las pruebas unitarias, debido al tiempo no pude implementarlas todas, debido a la gran cantidad de metodos que use.\\
+
+\chapter{Bibliografia}
+
+\url{https://taglib.org/}\\
+
+\url{https://www.sqlite.org/}\\
+
+\url{https://www.geeksforgeeks.org/compiler-design/phases-of-a-compiler/}\\
+\end{document}
