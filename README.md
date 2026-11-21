@@ -107,7 +107,7 @@ sudo dnf install gcc-c++
 
 Para la creación de la interfaz grafica de usuario se usa [**Qt (6.8.2)**](https://www.qt.io/), es recomendable instalar el IDE [**QtCreator (15.0.0)**](https://www.qt.io/development/tools/qt-creator-ide) (aunque no es obligatorio para compilar el proyecto), junto con herramientas adicionales:
 
-- En Debian/ Ubuntu / Linux Mint:
+- En Debian / Ubuntu / Linux Mint:
 
 ```
 sudo apt install qtcreator
@@ -135,7 +135,21 @@ sudo dnf install qt6-qtmultimedia-devel
 sudo dnf install qt6-qtquickcontrols2
 ```
 
-Pueden hacer falta otros y pueden variar dependiendo de la distribución y su versión, sin embargo, su instalación es similar.
+Pueden hacer falta otros y pueden variar dependiendo de la distribución y su versión, sin embargo, su instalación es similar, o también se pueden descargar mediante [**Qt for Open Source Use**](https://www.qt.io/development/download-qt-installer-oss), aunque es necesario tener una cuenta Qt y esta version es diferente a la instalada mediante apt o dnf y se tiene que configurar para que el constructor pueda encontrar la dependencia.
+
+Además puede ser necesario instalar XCB para ejecutar la interfaz.
+
+- En Debian / Ubunto / Linux Mint:
+
+```
+sudo apt install libxcb-cursor0
+```
+
+- En Fedora:
+
+```
+sudo dnf install xcb-util-cursor
+```
 
 #### Doxygen
 
@@ -231,6 +245,9 @@ Este ejecutable es la interfaz y no recibe ninguna bandera, tal que se ejecuta d
 La interfaz permite interactuar con la base de datos, administrar los metadatos de las canciones y reproducir los archivos MP3.
 
 ![Interfaz del proyecto.](imagenes/interfaz.png)
+
+> **Nota:** Algunos diálogos pueden presentar variaciones en su distribución dependiendo de la resolución y las dimensiones
+> de la pantalla, es recomendable usar la interfaz en pantalla completa.
 
 #### Búsquedas
 
