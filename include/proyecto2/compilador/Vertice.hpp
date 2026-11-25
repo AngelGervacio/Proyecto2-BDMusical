@@ -59,18 +59,6 @@ public:
    * @return El vertice derecho.
    */
   const Vertice& getDerecho() const;
-
-  /**
-   * @brief Asigna el vertice izquierdo.
-   * @param izquierdo El vertice izquierdo.
-   */
-  void setIzquierdo(std::unique_ptr<Vertice> izquierdo);
-
-  /**
-   * @brief Asigna el vertice derecho.
-   * @param derecho El vertice derecho.
-   */
-  void setDerecho(std::unique_ptr<Vertice> derecho);
 };
 
 #endif
