@@ -35,11 +35,3 @@ const Vertice& Vertice::getDerecho() const{
 
   return *derecho;  
 }
-
-void Vertice::setIzquierdo(std::unique_ptr<Vertice> izquierdo){
-  this->izquierdo = std::move(izquierdo);
-}
-
-void Vertice::setDerecho(std::unique_ptr<Vertice> derecho){
-  this->derecho = std::move(derecho);
-}
